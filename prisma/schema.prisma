@@ -1,0 +1,144 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum BodyType {
+  NONE
+  JSON
+  FORM_DATA
+  URL_ENCODED
+  RAW
+  BINARY
+}
+
+enum RunScript {
+  NONE
+  PRE_REQUEST
+  POST_REQUEST
+}
+
+enum AuthType {
+  NONE
+  BASIC
+  BEARER
+  API_KEY
+}
+
+model Environment {
+  id                   String                @id @default(uuid())
+  name                 String
+  description          String?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  environmentVariables EnvironmentVariable[]
+}
+
+model EnvironmentVariable {
+  id            String      @id @default(uuid())
+  key           String
+  value         String
+  environmentId String
+  environment   Environment @relation(fields: [environmentId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model User {
+  id              String           @id @default(uuid())
+  name            String
+  email           String           @unique
+  password        String
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  userCollections UserCollection[]
+  folders         Folder[]
+}
+
+model Collection {
+  id              String           @id @default(uuid())
+  name            String
+  description     String?
+  requests        Request[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  userCollections UserCollection[]
+  folders         Folder[]
+}
+
+model UserCollection {
+  id           String     @id @default(uuid())
+  userId       String
+  collectionId String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  user         User       @relation(fields: [userId], references: [id])
+  collection   Collection @relation(fields: [collectionId], references: [id])
+}
+
+model Request {
+  id               String    @id @default(uuid())
+  name             String
+  url              String
+  method           String
+  description      String?
+  headers          Json?
+  body_type        BodyType  @default(NONE)
+  body             Json?
+  js_scripts       String? // used for storing javascript scripts for the request
+  run_script       RunScript @default(NONE)
+  auth_type        AuthType  @default(NONE)
+  auth_token       String?
+  auth_credentials Json?
+
+  folderId       String?
+  folder         Folder?         @relation(fields: [folderId], references: [id])
+  collectionId   String
+  collection     Collection      @relation(fields: [collectionId], references: [id])
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  requestHeaders RequestHeader[]
+  requestLogs    RequestLog[]
+}
+
+model RequestHeader {
+  id        String   @id @default(uuid())
+  name      String
+  value     String
+  requestId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  request Request @relation(fields: [requestId], references: [id])
+}
+
+model RequestLog {
+  id        String  @id @default(uuid())
+  requestId String
+  status    String
+  response  Json?
+  error     String?
+  duration  Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  request Request @relation(fields: [requestId], references: [id])
+}
+
+model Folder {
+  id           String   @id @default(uuid())
+  name         String
+  userId       String
+  collectionId String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  collection Collection @relation(fields: [collectionId], references: [id])
+  user       User       @relation(fields: [userId], references: [id])
+  requests   Request[]
+}
