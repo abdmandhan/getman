@@ -246,7 +246,6 @@
                 />
               </v-col>
               <v-col cols="12">
-                asdf
                 <json-editor-vue v-model="addRequestForm.body" />
               </v-col>
             </v-row>
@@ -330,8 +329,8 @@ const addFolderLoading = ref(false);
 const showAddRequestDialog = ref(false);
 const addRequestForm = ref({
   name: "",
-  url: "",
-  method: "GET",
+  url: "http://nuc.test:8080/api/v2",
+  method: "POST",
   description: "",
   body_type: "NONE",
   body: null,
@@ -523,8 +522,8 @@ async function submitAddFolder() {
 function resetAddRequestForm() {
   addRequestForm.value = {
     name: "",
-    url: "",
-    method: "GET",
+    url: "http://nuc.test:8080/api/v2",
+    method: "POST",
     description: "",
     body_type: "NONE",
     body: null,
@@ -557,6 +556,10 @@ async function submitAddRequest() {
       body: {
         name: addRequestForm.value.name,
         url: addRequestForm.value.url,
+        body_type: addRequestForm.value.body_type,
+        body: addRequestForm.value.body
+          ? JSON.parse(addRequestForm.value.body)
+          : null,
         method: addRequestForm.value.method,
         description: addRequestForm.value.description || undefined,
         collectionId: activeRequestCollectionId.value,

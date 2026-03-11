@@ -1,8 +1,8 @@
 import { prisma } from "../server/utils/db";
 import bcrypt from 'bcryptjs';
-import { BodyType } from "./generated/client";
 
 export default async function seed() {
+    console.log('Seeding database...');
     const userData = {
         name: 'Abdurrahman Ramadhan',
         email: "abdmandhan@gmail.com",
@@ -20,7 +20,7 @@ export default async function seed() {
         });
     }
 
-
+    console.log('Database seeded successfully');
 }
 
 

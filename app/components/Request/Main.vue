@@ -1,7 +1,4 @@
 <template>
-  <!-- {{ props.request }}
-  <br />
-  {{ selectedRequest }} -->
   <v-card v-if="selectedRequest" class="mb-4">
     <v-card-title class="d-flex align-center justify-space-between">
       <v-text-field
@@ -31,10 +28,8 @@
         </template>
       </v-text-field>
     </v-card-title>
-    <!-- <v-card-subtitle class="pb-0">
-            <code>{{ selectedRequest.url }}</code>
-          </v-card-subtitle> -->
     <v-card-text>
+      <div class="flex">{{ selectedRequest.url }}?{{ urlParams }}</div>
       <v-tabs v-model="tab" color="primary" density="compact">
         <v-tab
           v-for="tab in tabLists"
@@ -50,10 +45,6 @@
       <v-divider></v-divider>
 
       <v-tabs-window v-model="tab">
-        <!-- <v-tabs-window-item v-for="tab in tabLists" :key="tab" :value="tab">
-          <v-sheet class="py-4">{{ tab.replace("_", " ") }}</v-sheet>
-        </v-tabs-window-item> -->
-
         <v-tabs-window-item value="docs">
           <v-sheet class="py-4">
             <v-textarea
@@ -67,7 +58,6 @@
 
         <v-tabs-window-item value="params">
           <v-sheet class="py-4">
-            <!-- <v-subtitle class="text-body-2">Query Parameters</v-subtitle> -->
             <v-table>
               <thead>
                 <tr>
@@ -87,9 +77,9 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="param in params" :key="param.key">
+                <tr v-for="(param, index) in params" :key="index">
                   <td style="max-width: 32px" class="px-0">
-                    <v-checkbox-btn></v-checkbox-btn>
+                    <v-checkbox-btn v-model="param.checked" />
                   </td>
                   <td>
                     <v-text-field
@@ -123,6 +113,19 @@
             </v-table>
           </v-sheet>
         </v-tabs-window-item>
+        <v-tabs-window-item value="body">
+          <v-sheet class="py-4">
+            <v-radio-group v-model="selectedRequest.body_type" inline>
+              <v-radio label="none" value="NONE"></v-radio>
+              <v-radio label="json" value="JSON"></v-radio>
+              <v-radio label="form_data" value="FORM_DATA"></v-radio>
+            </v-radio-group>
+            <json-editor-vue
+              v-model="selectedRequest.body"
+              v-if="selectedRequest.body_type === 'JSON'"
+            />
+          </v-sheet>
+        </v-tabs-window-item>
       </v-tabs-window>
       <v-alert v-if="sendError" type="error" density="compact" class="mb-3">
         {{ sendError }}
@@ -139,7 +142,9 @@
             max-height: 320px;
             overflow: auto;
           "
-          >{{ JSON.stringify(sendResponse.data, null, 2) }}</pre
+        >
+          {{ JSON.stringify(sendResponse.data, null, 2) }}
+          </pre
         >
       </div>
     </v-card-text>
@@ -147,28 +152,21 @@
 </template>
 
 <script setup lang="ts">
-import type { Request } from "~~/prisma/generated/client";
+import type { BodyType, Request } from "~~/prisma/generated/client";
 
 const props = defineProps<{
   request: Request;
 }>();
 
-const tabLists = [
-  "docs",
-  "params",
-  "authorization",
-  "headers",
-  "body",
-  "scripts",
-];
+const tabLists = ["docs", "params", "authorization", "headers", "body"];
 
-const tab = ref("params");
+const tab = ref("body");
 
 const sendLoading = ref(false);
 const sendError = ref<string | null>(null);
 const sendResponse = ref<any | null>(null);
 
-const params = ref<{ key: string; value: string; checked: boolean }[]>([
+const params = reactive<{ key: string; value: string; checked: boolean }[]>([
   {
     key: "",
     value: "",
@@ -215,7 +213,7 @@ async function sendRequest() {
 }
 
 function addParam() {
-  params.value.push({
+  params.push({
     key: "",
     value: "",
     checked: true,
@@ -223,8 +221,17 @@ function addParam() {
 }
 
 function removeParam(param: { key: string; value: string; checked: boolean }) {
-  params.value = params.value.filter((p) => p !== param);
+  params.splice(params.indexOf(param), 1);
 }
+
+const urlParams = computed(() => {
+  return (
+    params
+      .filter((param) => param.checked)
+      .map((param) => `${param.key}=${param.value}`)
+      .join("&") || ""
+  );
+});
 
 watch(
   () => props.request,

@@ -80,20 +80,29 @@ model UserCollection {
   collection   Collection @relation(fields: [collectionId], references: [id])
 }
 
+model Authorization {
+  id          String    @id @default(uuid())
+  name        String
+  authType    AuthType
+  token       String?
+  credentials Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  requests    Request[]
+}
+
 model Request {
-  id               String    @id @default(uuid())
-  name             String
-  url              String
-  method           String
-  description      String?
-  headers          Json?
-  body_type        BodyType  @default(NONE)
-  body             Json?
-  js_scripts       String? // used for storing javascript scripts for the request
-  run_script       RunScript @default(NONE)
-  auth_type        AuthType  @default(NONE)
-  auth_token       String?
-  auth_credentials Json?
+  id              String    @id @default(uuid())
+  name            String
+  url             String
+  method          String
+  description     String?
+  headers         Json?
+  body_type       BodyType  @default(NONE)
+  body            Json?
+  js_scripts      String? // used for storing javascript scripts for the request
+  run_script      RunScript @default(NONE)
+  authorizationId String?
 
   folderId       String?
   folder         Folder?         @relation(fields: [folderId], references: [id])
@@ -103,6 +112,7 @@ model Request {
   updatedAt      DateTime        @updatedAt
   requestHeaders RequestHeader[]
   requestLogs    RequestLog[]
+  authorization  Authorization?  @relation(fields: [authorizationId], references: [id])
 }
 
 model RequestHeader {

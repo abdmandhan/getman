@@ -65,6 +65,19 @@ CREATE TABLE "UserCollection" (
 );
 
 -- CreateTable
+CREATE TABLE "Authorization" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "authType" "AuthType" NOT NULL,
+    "token" TEXT,
+    "credentials" JSONB,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Authorization_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Request" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -76,9 +89,7 @@ CREATE TABLE "Request" (
     "body" JSONB,
     "js_scripts" TEXT,
     "run_script" "RunScript" NOT NULL DEFAULT 'NONE',
-    "auth_type" "AuthType" NOT NULL DEFAULT 'NONE',
-    "auth_token" TEXT,
-    "auth_credentials" JSONB,
+    "authorizationId" TEXT,
     "folderId" TEXT,
     "collectionId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -142,6 +153,9 @@ ALTER TABLE "Request" ADD CONSTRAINT "Request_folderId_fkey" FOREIGN KEY ("folde
 
 -- AddForeignKey
 ALTER TABLE "Request" ADD CONSTRAINT "Request_collectionId_fkey" FOREIGN KEY ("collectionId") REFERENCES "Collection"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Request" ADD CONSTRAINT "Request_authorizationId_fkey" FOREIGN KEY ("authorizationId") REFERENCES "Authorization"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "RequestHeader" ADD CONSTRAINT "RequestHeader_requestId_fkey" FOREIGN KEY ("requestId") REFERENCES "Request"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

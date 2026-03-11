@@ -15,6 +15,7 @@
           VTab: { density: 'compact', color: 'primary' },
           VTable: { density: 'compact', color: 'primary' },
           VCheckboxBtn: { density: 'compact', color: 'primary' },
+          VRadioGroup: { color: 'primary' },
           // VCard: {
           //   rounded: 'lg',
           //   elevation: 2,

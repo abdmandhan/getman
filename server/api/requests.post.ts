@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { BodyType } from "~~/prisma/generated/client";
 import { prisma } from "~~/server/utils/db";
 
 export default defineEventHandler(async (event) => {
@@ -11,18 +12,20 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const body = await readBody(event);
+  const requestBody = await readBody(event);
 
-  const { name, url, method, collectionId, folderId, description } = z
+  const { name, url, method, body_type, body, collectionId, folderId, description } = z
     .object({
       name: z.string().min(1),
       url: z.string().min(1),
       method: z.string().min(1),
+      body_type: z.enum(Object.values(BodyType)),
+      body: z.any().nullable(),
       collectionId: z.string().min(1),
       folderId: z.string().optional().nullable(),
       description: z.string().optional(),
     })
-    .parse(body);
+    .parse(requestBody);
 
   const user = await prisma.user.findFirst({
     where: {
@@ -85,6 +88,8 @@ export default defineEventHandler(async (event) => {
       description,
       collectionId: collection.id,
       folderId: folderId ?? null,
+      body_type,
+      body,
     },
   });
 
