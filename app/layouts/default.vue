@@ -81,7 +81,11 @@
           class="mb-4"
         />
 
-        <RequestMain v-if="selectedRequest" :request="selectedRequest" />
+        <RequestMain
+          v-if="selectedRequest"
+          :request="selectedRequest"
+          @remove-request="removeRequest"
+        />
 
         <!-- {{ items }} -->
 
@@ -195,7 +199,7 @@
       </v-dialog>
 
       <!-- Add Request dialog -->
-      <v-dialog v-model="showAddRequestDialog" max-width="600">
+      <v-dialog v-model="showAddRequestDialog" max-width="600" persistent>
         <v-card
           :title="`Add Request to ${activeCollectionForDialog?.title ?? ''}`"
         >
@@ -232,7 +236,7 @@
                 />
               </v-col>
               <v-col>
-                <v-select
+                <!-- <v-select
                   v-model="addRequestForm.body_type"
                   :items="[
                     'NONE',
@@ -243,9 +247,14 @@
                     'BINARY',
                   ]"
                   label="Body Type"
-                />
+                /> -->
+                <v-radio-group v-model="addRequestForm.body_type" inline>
+                  <v-radio label="none" value="NONE"></v-radio>
+                  <v-radio label="json" value="JSON"></v-radio>
+                  <v-radio label="form_data" value="FORM_DATA"></v-radio>
+                </v-radio-group>
               </v-col>
-              <v-col cols="12">
+              <v-col cols="12" v-if="addRequestForm.body_type === 'JSON'">
                 <json-editor-vue v-model="addRequestForm.body" />
               </v-col>
             </v-row>
@@ -573,6 +582,11 @@ async function submitAddRequest() {
   } finally {
     addRequestLoading.value = false;
   }
+}
+
+async function removeRequest(id: string) {
+  await fetchCollectionsTree();
+  selectedRequest.value = null;
 }
 
 onMounted(() => {

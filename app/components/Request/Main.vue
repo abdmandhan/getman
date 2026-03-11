@@ -126,6 +126,18 @@
             />
           </v-sheet>
         </v-tabs-window-item>
+        <v-tabs-window-item value="authorization">
+          <v-sheet class="py-4">
+            <!-- <v-select
+              v-model="selectedRequest.authorizationId"
+              :items="availableAuthorizations?.data ?? []"
+              label="Authorization"
+              hide-details
+              min-width="150"
+            /> -->
+            <!-- {{ availableAuthorizations }} -->
+          </v-sheet>
+        </v-tabs-window-item>
       </v-tabs-window>
       <v-alert v-if="sendError" type="error" density="compact" class="mb-3">
         {{ sendError }}
@@ -148,11 +160,21 @@
         >
       </div>
     </v-card-text>
+    <v-card-actions>
+      <v-divider></v-divider>
+      <v-btn color="error" variant="tonal" @click="removeRequest">
+        Remove Request
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import type { BodyType, Request } from "~~/prisma/generated/client";
+import type { Request } from "~~/prisma/generated/client";
+
+const emit = defineEmits<{
+  (e: "remove-request", id: string): void;
+}>();
 
 const props = defineProps<{
   request: Request;
@@ -160,7 +182,7 @@ const props = defineProps<{
 
 const tabLists = ["docs", "params", "authorization", "headers", "body"];
 
-const tab = ref("body");
+const tab = ref("authorization");
 
 const sendLoading = ref(false);
 const sendError = ref<string | null>(null);
@@ -242,4 +264,12 @@ watch(
     immediate: true,
   },
 );
+
+async function removeRequest() {
+  if (!selectedRequest.value) return;
+  await $fetch("/api/requests/" + selectedRequest.value.id, {
+    method: "DELETE",
+  });
+  emit("remove-request", selectedRequest.value.id);
+}
 </script>
