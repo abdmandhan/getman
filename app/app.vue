@@ -6,8 +6,15 @@
           VSelect: { density: 'compact', color: 'primary' },
           VDataTable: { density: 'compact', color: 'primary' },
           VDataTableServer: { density: 'compact', color: 'primary' },
-          VTextField: { density: 'compact', color: 'primary' },
+          VTextField: {
+            density: 'compact',
+            color: 'primary',
+            variant: 'outlined',
+          },
           VSwitch: { density: 'compact', color: 'primary' },
+          VTab: { density: 'compact', color: 'primary' },
+          VTable: { density: 'compact', color: 'primary' },
+          VCheckboxBtn: { density: 'compact', color: 'primary' },
           // VCard: {
           //   rounded: 'lg',
           //   elevation: 2,
@@ -34,4 +41,6 @@
   </v-theme-provider>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import type { VTab, VTable } from "vuetify/components";
+</script>

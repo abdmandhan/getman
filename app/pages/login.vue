@@ -20,7 +20,6 @@
             autocomplete="username"
             :hide-details="true"
             class="mb-4"
-            variant="outlined"
             required
           />
 
@@ -31,7 +30,6 @@
             autocomplete="current-password"
             :hide-details="true"
             class="mb-6"
-            variant="outlined"
             required
           />
 

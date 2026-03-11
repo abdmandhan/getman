@@ -23,6 +23,7 @@
     "@trpc/server": "^11.11.0",
     "apexcharts": "^5.10.1",
     "bcryptjs": "^3.0.3",
+    "json-editor-vue": "^0.18.1",
     "nuxt": "^4.3.1",
     "nuxt-auth-utils": "^0.5.29",
     "pg": "^8.19.0",

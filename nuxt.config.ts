@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     'vuetify-nuxt-module',
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
-    'nuxt-auth-utils'
+    'nuxt-auth-utils',
   ],
 
   eslint: {
