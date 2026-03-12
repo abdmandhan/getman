@@ -7,6 +7,9 @@ CREATE TYPE "RunScript" AS ENUM ('NONE', 'PRE_REQUEST', 'POST_REQUEST');
 -- CreateEnum
 CREATE TYPE "AuthType" AS ENUM ('NONE', 'BASIC', 'BEARER', 'API_KEY');
 
+-- CreateEnum
+CREATE TYPE "RequestMethod" AS ENUM ('GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD');
+
 -- CreateTable
 CREATE TABLE "Environment" (
     "id" TEXT NOT NULL,
@@ -82,7 +85,7 @@ CREATE TABLE "Request" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "url" TEXT NOT NULL,
-    "method" TEXT NOT NULL,
+    "method" "RequestMethod" NOT NULL,
     "description" TEXT,
     "headers" JSONB,
     "body_type" "BodyType" NOT NULL DEFAULT 'NONE',

@@ -16,6 +16,7 @@
           VTable: { density: 'compact', color: 'primary' },
           VCheckboxBtn: { density: 'compact', color: 'primary' },
           VRadioGroup: { color: 'primary' },
+          VDialog: { persistent: true },
           // VCard: {
           //   rounded: 'lg',
           //   elevation: 2,
@@ -43,5 +44,5 @@
 </template>
 
 <script lang="ts" setup>
-import type { VTab, VTable } from "vuetify/components";
+import type { VDialog, VTab, VTable } from "vuetify/components";
 </script>

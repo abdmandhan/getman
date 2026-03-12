@@ -2,6 +2,14 @@
   <v-layout class="rounded-md border">
     <v-app-bar title="Getman API">
       <template #append>
+        <v-btn
+          size="small"
+          variant="tonal"
+          color="warning"
+          @click="showAuthorizationDialog = true"
+        >
+          Authorization
+        </v-btn>
         <v-btn @click="theme.toggle()" icon>
           <v-icon>
             {{
@@ -28,6 +36,7 @@
         activatable
         open-on-click
         indent-lines="default"
+        open-all
       >
         <template v-slot:prepend="{ item, isOpen }">
           <v-icon
@@ -88,6 +97,7 @@
         />
 
         <!-- {{ items }} -->
+        <!-- {{ store.authorizations }} -->
 
         <slot />
       </v-container>
@@ -235,6 +245,16 @@
                   auto-grow
                 />
               </v-col>
+              <v-col cols="12">
+                <v-select
+                  v-model="addRequestForm.authorizationId"
+                  :items="store.authorizations"
+                  label="Authorization"
+                  item-title="name"
+                  item-value="id"
+                  hide-details
+                />
+              </v-col>
               <v-col>
                 <!-- <v-select
                   v-model="addRequestForm.body_type"
@@ -277,6 +297,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <AuthorizationDialog v-model="showAuthorizationDialog" />
     </v-main>
   </v-layout>
 </template>
@@ -284,17 +305,12 @@
 <script lang="ts" setup>
 import { useTheme } from "vuetify";
 import type { Request } from "~~/prisma/generated/client";
+const store = useAppStore();
 const theme = useTheme();
 
+const showAuthorizationDialog = ref(false);
+
 const { clear } = useUserSession();
-const menus = [
-  {
-    title: "Dashboard",
-    icon: "mdi-view-dashboard",
-    to: "/",
-    iconColor: "primary",
-  },
-];
 
 async function logout() {
   await clear();
@@ -343,6 +359,7 @@ const addRequestForm = ref({
   description: "",
   body_type: "NONE",
   body: null,
+  authorizationId: null,
 });
 const addRequestLoading = ref(false);
 const activeRequestCollectionId = ref<string | null>(null);
@@ -536,6 +553,7 @@ function resetAddRequestForm() {
     description: "",
     body_type: "NONE",
     body: null,
+    authorizationId: null,
   };
 }
 
@@ -573,6 +591,7 @@ async function submitAddRequest() {
         description: addRequestForm.value.description || undefined,
         collectionId: activeRequestCollectionId.value,
         folderId: activeRequestFolderId.value ?? undefined,
+        authorizationId: addRequestForm.value.authorizationId ?? undefined,
       },
     });
     closeAddRequestDialog();
@@ -591,5 +610,6 @@ async function removeRequest(id: string) {
 
 onMounted(() => {
   fetchCollectionsTree();
+  store.fetchAuthorizations();
 });
 </script>

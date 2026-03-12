@@ -29,6 +29,16 @@ enum AuthType {
   API_KEY
 }
 
+enum RequestMethod {
+  GET
+  POST
+  PUT
+  DELETE
+  PATCH
+  OPTIONS
+  HEAD
+}
+
 model Environment {
   id                   String                @id @default(uuid())
   name                 String
@@ -92,16 +102,16 @@ model Authorization {
 }
 
 model Request {
-  id              String    @id @default(uuid())
+  id              String        @id @default(uuid())
   name            String
   url             String
-  method          String
+  method          RequestMethod
   description     String?
   headers         Json?
-  body_type       BodyType  @default(NONE)
+  body_type       BodyType      @default(NONE)
   body            Json?
   js_scripts      String? // used for storing javascript scripts for the request
-  run_script      RunScript @default(NONE)
+  run_script      RunScript     @default(NONE)
   authorizationId String?
 
   folderId       String?

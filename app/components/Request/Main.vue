@@ -128,13 +128,14 @@
         </v-tabs-window-item>
         <v-tabs-window-item value="authorization">
           <v-sheet class="py-4">
-            <!-- <v-select
+            <v-select
               v-model="selectedRequest.authorizationId"
-              :items="availableAuthorizations?.data ?? []"
+              :items="store.authorizations"
               label="Authorization"
+              item-title="name"
+              item-value="id"
               hide-details
-              min-width="150"
-            /> -->
+            />
             <!-- {{ availableAuthorizations }} -->
           </v-sheet>
         </v-tabs-window-item>
@@ -148,14 +149,13 @@
           {{ sendResponse.statusText }}
         </div>
         <pre
-          class="pa-3 rounded text-body-2"
           style="
             background-color: rgba(255, 255, 255, 0.04);
             max-height: 320px;
             overflow: auto;
           "
         >
-          {{ JSON.stringify(sendResponse.data, null, 2) }}
+            {{ JSON.stringify(sendResponse.data, null, 2) }}
           </pre
         >
       </div>
@@ -171,6 +171,7 @@
 
 <script setup lang="ts">
 import type { Request } from "~~/prisma/generated/client";
+const store = useAppStore();
 
 const emit = defineEmits<{
   (e: "remove-request", id: string): void;
@@ -205,21 +206,8 @@ async function sendRequest() {
   sendResponse.value = null;
 
   try {
-    const res = await $fetch("/api/requests/send", {
+    const res = await $fetch(`/api/requests/${selectedRequest.value.id}/send`, {
       method: "POST",
-      body: {
-        url: selectedRequest.value.url,
-        method: selectedRequest.value.method,
-        body: {
-          method: "public/user/login",
-          jsonrpc: "2.0",
-          id: 1,
-          params: {
-            userId: "abdmandhan",
-            pin: "123123",
-          },
-        },
-      },
     });
     sendResponse.value = res;
   } catch (err: any) {
