@@ -36,7 +36,6 @@
         activatable
         open-on-click
         indent-lines="default"
-        open-all
       >
         <template v-slot:prepend="{ item, isOpen }">
           <v-icon

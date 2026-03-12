@@ -1,0 +1,4664 @@
+type: spec.insomnia.rest/5.0
+schema_version: "5.1"
+name: MicroJobs Backend
+meta:
+  id: wrk_f2a82905f93c458cb60ddd5d84598267
+  created: 1769501188153
+  modified: 1770352881015
+  description: ""
+collection:
+  - name: User App
+    meta:
+      id: fld_01baff1247094597b482859f0573662d
+      created: 1770713204195
+      modified: 1772509401762
+      sortKey: -1770713204195
+      description: ""
+    children:
+      - name: public
+        meta:
+          id: fld_f46a6d76264a4e608a70e932512413c7
+          created: 1772509247267
+          modified: 1772509247267
+          sortKey: -1772509247267
+          description: ""
+        children:
+          - url: "{{ _.BASE_API_URL }}"
+            name: Get Medical Declarations
+            meta:
+              id: req_cf88272874614d52b3085a61060d9024
+              created: 1772005182796
+              modified: 1772509272317
+              isPrivate: false
+              description: ""
+              sortKey: -1772509256072
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"method": "public/user/medical_declarations",
+                	"jsonrpc": "2.0",
+                	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                	"params": {
+                		
+                	}
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.3.1
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - name: Auth
+            meta:
+              id: fld_d938383f8e4145879b0d6a04fb76f193
+              created: 1770786141483
+              modified: 1772509361622
+              sortKey: -1772509256172
+              description: ""
+            children:
+              - url: "{{ _.BASE_API_URL }}"
+                name: First time login
+                meta:
+                  id: req_77e87601a03a4db08911c242f386eb09
+                  created: 1770786221088
+                  modified: 1772701316535
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770739800503
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"method": "public/user/first_time_login",
+                    	"jsonrpc": "2.0",
+                    	"params": {
+                    		"userId": "HelloWorld1",
+                    		"pin": "043315"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Setup Pin (First login user)
+                meta:
+                  id: req_36ad8c2b12c840a89dd3f5b3a6bbcce7
+                  created: 1770786440482
+                  modified: 1772086561194
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770716626479
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"method": "public/user/setup_pin",
+                    	"jsonrpc": "2.0",
+                    	"params": {
+                    		"setupToken": "{% response 'body', 'req_77e87601a03a4db08911c242f386eb09', 'b64::JC5yZXN1bHQuc2V0dXBUb2tlbg==::46b', 'never', 60 %}",
+                    		"pin": "123456",
+                    		"confirmPin": "123456"		
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Confirm Setup Pin (First login user)
+                meta:
+                  id: req_420e061e04aa45358e29bedcaf93fe6e
+                  created: 1770793623160
+                  modified: 1772701338752
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770705039467
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"method": "public/user/confirm_first_time_otp",
+                    	"jsonrpc": "2.0",
+                    	"params": {
+                    		"otpToken": "{% response 'body', 'req_36ad8c2b12c840a89dd3f5b3a6bbcce7', 'b64::JC5yZXN1bHQub3RwVG9rZW4=::46b', 'never', 60 %}",
+                    		"otp": "392858"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Login
+                meta:
+                  id: req_317734b0fe9b4f629dca9c67fcfc3acb
+                  created: 1770795468175
+                  modified: 1773048302813
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770699245961
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"method": "public/user/login",
+                    	"jsonrpc": "2.0",
+                    	"params": {
+                    		"userId": "asdfdsf",
+                    		"pin": "123456"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Verify Login
+                meta:
+                  id: req_f3d209195ec54893bbb5484669e8fee2
+                  created: 1770795527412
+                  modified: 1773031568022
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770696349208
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"method": "public/user/verify_login",
+                    	"jsonrpc": "2.0",
+                    	"params": {
+                    		"otpToken": "{% response 'body', 'req_317734b0fe9b4f629dca9c67fcfc3acb', 'b64::JC5yZXN1bHQub3RwVG9rZW4=::46b', 'never', 60 %}",
+                    		"otp": "858803"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Resend Setup Pin OTP
+                meta:
+                  id: req_66ad478067a24d53a2ab93ad86090867
+                  created: 1770867016822
+                  modified: 1770868872669
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770702142714
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"method": "public/user/resend_setup_otp",
+                    	"jsonrpc": "2.0",
+                    	"params": {
+                    		"otpToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzA4NjkwNzEsImlhdCI6MTc3MDg2ODc3MSwibm9uY2UiOiJmY2E4MDBmNGQ0ZTEzMWE0ZWViNjQwOThjYzAyZTQzZmIyZjExMTVmODhhZWFmMDQ0YWRmM2ExZjNmN2U0ZGUzIiwic3ViIjoiKzYyODUzMzQzMzk5MjYiLCJ0eXBlIjoidXNlcl9vdHAifQ.9Ab_TSBKVArz_Kl2JLVyFj0KfQhWn7xsAAtOcdGWIzI"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Resend Login OTP
+                meta:
+                  id: req_9990b8009a9c4b3a925d27d2dfc4c53a
+                  created: 1770867063377
+                  modified: 1772701667529
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770694900831.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"method": "public/user/resend_login_otp",
+                    	"jsonrpc": "2.0",
+                    	"params": {
+                    		"otpToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzI3MDE5MzAsImlhdCI6MTc3MjcwMTYzMCwibm9uY2UiOiJlZTc1NGIxZGE1ZDVhZTU2MDNlOWE4ZWE3NzNjMWMwMTczZjJmZDdhZTkwYTJiMzAwZmZhNTBlODhlMzg4MzMzIiwic3ViIjoiNzZiODFkN2MtMWZlOC00YmFjLTk3NjktOTBkYmM0M2RlNmRlIiwidHlwZSI6InVzZXJfb3RwIn0.rClUwmXw05MlicdStvK3JkHnnPHA3PLkSDRwcdVwrkI"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Check User ID
+                meta:
+                  id: req_0332f015c7724601b1d28124532c526b
+                  created: 1772682928980
+                  modified: 1772701253341
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770762974527
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "public/user/check_user_id",
+                    	"jsonrpc": "2.0",
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"params": {
+                    		"userId": "HelloWorld1"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+          - name: Registration
+            meta:
+              id: fld_90f4131bf65544aca1c4fbbc067669ec
+              created: 1772507910820
+              modified: 1772511447304
+              sortKey: -1772509255972
+              description: ""
+            children:
+              - url: "{{ _.BASE_API_URL }}"
+                name: Register
+                meta:
+                  id: req_d3ea2fbd8c1d49999c16558b17fd8337
+                  created: 1771557530980
+                  modified: 1773043098855
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1772507919411
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"method": "public/user/register",
+                    	"jsonrpc": "2.0",
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"params": {
+                    		"userId": "asdfdsf",
+                    		"race": "Chinese",
+                    		"fullName": "{% randomName 'fullName', 'male' %}",
+                    		"nricNumber": "B{% randomDatatypeNumber 11111111, 99999999, false, 4 %}",
+                    		"phone": "+6285343{% randomDatatypeNumber 11111, 99999, false, 4 %}",
+                    		"gender": "M",
+                    		"pin": "123456",
+                    		"birthDate": "2012-12-12",
+                    		"address": "{% fakeAddress 'addressLine1' %}",
+                    		"declarations": {
+                    			"physicalImpairment": true,
+                    			"longTermMedication": {
+                    				"answer": true,
+                    				"details": "hello world"
+                    			},
+                    			"criminalRecord": false
+                    		}
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Verify Register
+                meta:
+                  id: req_dde9209161344cc19db1d3c87e6ca963
+                  created: 1772507940567
+                  modified: 1773043106951
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1772300818385
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"method": "public/user/verify_registration",
+                    	"jsonrpc": "2.0",
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"params": {
+                    		"otpToken": "{% response 'body', 'req_d3ea2fbd8c1d49999c16558b17fd8337', 'b64::JC5yZXN1bHQub3RwVG9rZW4=::46b', 'never', 60 %}",
+                    		"otp": "227037",
+                    		"userId": "ABC1233",
+                    		"nricNumber": "B38218478",
+                    		"phone": "+628534320296"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Resend Registration OTP
+                meta:
+                  id: req_3d50cdcdd3804e24b02fa25b48e843e7
+                  created: 1772511466063
+                  modified: 1772511543809
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1772197267872
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"method": "public/user/resend_registration_otp",
+                    	"jsonrpc": "2.0",
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"params": {
+                    		"otpToken": "{% response 'body', 'req_d3ea2fbd8c1d49999c16558b17fd8337', 'b64::JC5yZXN1bHQub3RwVG9rZW4=::46b', 'never', 60 %}"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Check Register
+                meta:
+                  id: req_76c3680d79af4c9c812036913bce53d7
+                  created: 1772521206645
+                  modified: 1772685368274
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1772404368898
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "public/user/check_register",
+                    	"jsonrpc": "2.0",
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"params": {
+                    		"userId": "abc123",
+                    		"race": "Others",
+                    		"fullName": "{% randomName 'fullName', 'male' %}",
+                    		"nricNumber": "B123123",
+                    		"email": "{% fakeInternet 'exampleEmail' %}",
+                    		"phone": "+6285344335423",
+                    		"gender": "F",
+                    		"birthDate": "2012-12-12",
+                    		"address": "{% fakeAddress 'addressLine1' %}",
+                    		"declarations": {
+                    			"physicalImpairment": true,
+                    			"longTermMedication": {
+                    				"answer": true,
+                    				"details": "123123123"
+                    			},
+                    			"criminalRecord": false
+                    		}
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Validate User ID
+                meta:
+                  id: req_d160a59190ca4dc8bd7c4623c77e8ad2
+                  created: 1772699294548
+                  modified: 1773111643137
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1772326706013.25
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "public/user/validate_user_id",
+                    	"jsonrpc": "2.0",
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"params": {
+                    		"userId": "HelloWorld"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+      - name: private
+        meta:
+          id: fld_607232e31cdf4dc6af9e0d74495c9239
+          created: 1772509288756
+          modified: 1772527161850
+          sortKey: -1772509288756
+          description: ""
+        children:
+          - url: "{{ _.BASE_API_URL }}"
+            name: Me
+            meta:
+              id: req_7536693eb4c24c2899622120d07805a1
+              created: 1770952580033
+              modified: 1772509379011
+              isPrivate: false
+              description: ""
+              sortKey: -1772509342043
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"method": "private/user/me",
+                	"jsonrpc": "2.0",
+                	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                	"params": {
+                		
+                	}
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.3.1
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - name: Education
+            meta:
+              id: fld_8944001deb154175a9d88a35f35c40aa
+              created: 1770879408235
+              modified: 1772509375243
+              sortKey: -1772509341943
+              description: ""
+            children:
+              - url: "{{ _.BASE_API_URL }}"
+                name: Get Education
+                meta:
+                  id: req_36ec2d1f5d744da09ecc03bfb4a5737a
+                  created: 1770879412796
+                  modified: 1770879540713
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770879412796
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/user/me/educations",
+                    	"jsonrpc": "2.0",
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"params": {
+                    		
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Create Education
+                meta:
+                  id: req_34e8e7717d774eaba9e2ef331e82fa13
+                  created: 1770886117666
+                  modified: 1770886314251
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770832780673.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"method": "private/user/me/educations/create",
+                    	"jsonrpc": "2.0",
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"params": {
+                    		"institutionName": "University of Indonesia",
+                    		"qualificationType": "Bachelor",
+                    		"fieldOfStudy": "Computer Science",
+                    		"qualificationName": "Bachelor of Computer Science",
+                    		"startYear": 2019,
+                    		"startMonth": 8,
+                    		"endYear": 2023,
+                    		"endMonth": 6,
+                    		"description": "Focused on software engineering, distributed systems, and databases."
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Update Education
+                meta:
+                  id: req_971d228674ea4a129f9da57cbae676ed
+                  created: 1770886346674
+                  modified: 1770886738505
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770809464612.25
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"method": "private/user/me/educations/update",
+                    	"jsonrpc": "2.0",
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"params": {
+                    		"educationId": "34467779-b3a3-4ab9-b5cd-67c0b59338b2",
+                    		"institutionName": "University of Indonesiaaa",
+                    		"qualificationType": "Bachelor",
+                    		"fieldOfStudy": "Computer Science",
+                    		"qualificationName": "Bachelor of Computer Science",
+                    		"startYear": 2019,
+                    		"startMonth": 8,
+                    		"endYear": 2023,
+                    		"endMonth": 6,
+                    		"description": "Focused on software engineering, distributed systems, and databases."
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Delete Education
+                meta:
+                  id: req_f64139e11f6b4df19599e7fa3180552c
+                  created: 1770886710350
+                  modified: 1770887819382
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770797806581.625
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/user/me/educations/delete",
+                    	"jsonrpc": "2.0",
+                    	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                    	"params": {
+                    		"educationIds": ["34467779-b3a3-4ab9-b5cd-67c0b59338b2"]
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+          - name: Experiences
+            meta:
+              id: fld_aad0ca85d6144e5dbfa45ae3ec08a4f5
+              created: 1770883797138
+              modified: 1772509371835
+              sortKey: -1772509341843
+              description: ""
+            children:
+              - url: "{{ _.BASE_API_URL }}"
+                name: Get Experiences
+                meta:
+                  id: req_e1efd492b2c7436db7edfdcaa2441282
+                  created: 1770883852849
+                  modified: 1772527174237
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770883852849
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |
+                    {
+                      "method": "private/user/me/experiences",
+                      "jsonrpc": "2.0",
+                      "id": 1,
+                      "params": {
+                        "page": 1,
+                        "limit": 10
+                      }
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Create Experiences
+                meta:
+                  id: req_38ccb1099d6d4b4facd171bdefb9ccb9
+                  created: 1770920281344
+                  modified: 1772527177126
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770835000700
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/user/me/experiences/create",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"jobTitle": "Software Engineer",
+                    		"companyName": "Acme Corp",
+                    		"employmentType": "Full-time",
+                    		"location": "Singapore",
+                    		"industry": "Technology",
+                    		"description": "Developed backend microservices",
+                    		"startDate": "01/03/2022",
+                    		"endDate": null,
+                    		"isCurrent": true
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Update Experiences
+                meta:
+                  id: req_4f8935577c004310aa2ef31c2445d839
+                  created: 1770924654157
+                  modified: 1772527931294
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770810574625.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/user/me/experiences/update",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"id": "3d8eb7f2-4eda-4eb5-8a88-e5c6a62cf8e7",
+                    		"jobTitle": "Senior Software Engineer",
+                    		"companyName": "Acme Corp",
+                    		"employmentType": "Full-time",
+                    		"location": "Singapore",
+                    		"industry": "Technology",
+                    		"description": "Led backend team for microservices",
+                    		"startDate": "01/03/2022",
+                    		"endDate": "15/12/2024",
+                    		"isCurrent": false
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Delete Experiences
+                meta:
+                  id: req_1d3e32ff5ca04038bd88501670d863f6
+                  created: 1770924685794
+                  modified: 1772527561677
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770798361588.25
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/user/me/certificates/delete",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"ids": [
+                    			"00cf9737-edaa-4138-bf10-daea87a106ff"
+                    		]
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+          - name: Addresses
+            meta:
+              id: fld_6c3850eaabbb42ae9017378de3155ec1
+              created: 1770965257728
+              modified: 1772509341806
+              sortKey: -1772509341743
+              description: ""
+            children:
+              - url: "{{ _.BASE_API_URL }}"
+                name: Get Addresses
+                meta:
+                  id: req_5f9d34ebf83d41fb81c59ad7c5802e62
+                  created: 1770965245048
+                  modified: 1771482337815
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770965268980
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/user/me/addresses",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"limit": 10,
+                    		"page": 1
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_f3d209195ec54893bbb5484669e8fee2',
+                      'b64::JC5yZXN1bHQuYWNjZXNzVG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Create Addresses
+                meta:
+                  id: req_47bf160a8e4e41329d881a41835651d7
+                  created: 1770965381620
+                  modified: 1771482337815
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770924560914.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/user/me/addresses/create",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"label": "Home",
+                    		"address": "123 Orchard Road, Singapore",
+                    		"floorUnit": "#12-34",
+                    		"postal": "238858"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_f3d209195ec54893bbb5484669e8fee2',
+                      'b64::JC5yZXN1bHQuYWNjZXNzVG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Update Addresses
+                meta:
+                  id: req_c81772a3eab24791bbc05e4809a9be21
+                  created: 1770965403575
+                  modified: 1771482337815
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770904206881.75
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/user/me/addresses/update",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"id": "9d7f1085-154b-4968-81c6-e70fd88cc539",
+                    		"label": "Office",
+                    		"address": "1 Raffles Place, Singapore",
+                    		"floorUnit": "#30-01",
+                    		"postal": "048616"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_f3d209195ec54893bbb5484669e8fee2',
+                      'b64::JC5yZXN1bHQuYWNjZXNzVG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Delete Addresses
+                meta:
+                  id: req_8297239246ec41a483400f40975f44d7
+                  created: 1770965425104
+                  modified: 1771482337815
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770894029865.375
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/user/me/addresses/delete",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"ids": [
+                    			"9d7f1085-154b-4968-81c6-e70fd88cc539"
+                    		]
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_f3d209195ec54893bbb5484669e8fee2',
+                      'b64::JC5yZXN1bHQuYWNjZXNzVG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Search Addresses
+                meta:
+                  id: req_a6b6700aa7d046318ebc56682b74199c
+                  created: 1772165747583
+                  modified: 1772420511871
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770888941357.1875
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                      "method": "private/user/addresses/search",
+                      "jsonrpc": "2.0",
+                      "id": 1,
+                      "params": {
+                        "search": "orchard"
+                      }
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_f3d209195ec54893bbb5484669e8fee2',
+                      'b64::JC5yZXN1bHQuYWNjZXNzVG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: true
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+          - name: Certificates
+            meta:
+              id: fld_1d08382161714171b65068517c0f056b
+              created: 1772527309260
+              modified: 1772527309260
+              sortKey: -1772509341793
+              description: ""
+            children:
+              - url: "{{ _.BASE_API_URL }}"
+                name: Get Certificates
+                meta:
+                  id: req_d2aedc64d10a415fbe8bf51f7c3964ff
+                  created: 1772527309262
+                  modified: 1772527449153
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770883852849
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |
+                    {
+                      "method": "private/user/me/certificates",
+                      "jsonrpc": "2.0",
+                      "id": 1,
+                      "params": {
+                        "page": 1,
+                        "limit": 10
+                      }
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Create Certificate
+                meta:
+                  id: req_26d2148d36e34f9c9b0d7a3b6aa957f8
+                  created: 1772527309263
+                  modified: 1772527828341
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770835000700
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/user/me/certificates/create",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"name": "Certificate Name",
+                    		"issuingOrganization": "Acme Corp",
+                    		"issueDate": "2012-12-12",
+                    		"expiryDate": "2012-12-12",
+                    		"certificateUrl": null
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Update Certificate
+                meta:
+                  id: req_c49c290e0e7240478d7ce28eed4bc0d0
+                  created: 1772527309263
+                  modified: 1772605604807
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770810574625.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/user/me/certificates/update",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"id": "4c92c1c4-d8d9-4f64-ab6b-b19e52433367",
+                    		"name": "Certificate Name 1",
+                    		"issuingOrganization": "Acme Corp",
+                    		"issueDate": "2012-12-12",
+                    		"expiryDate": "2012-12-13",
+                    		"certificateUrl": null
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Delete Experiences
+                meta:
+                  id: req_bb8aee3a453043878730f558b64bada7
+                  created: 1772527309264
+                  modified: 1772606431680
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1770798361588.25
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/user/me/certificates/delete",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"ids": [
+                    			"bcb16d09-fb6d-4eb8-8f15-1d6d0ae8201f",
+                    			"a0f307d3-be83-4816-ba49-553ecb4de891"
+                    		]
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+          - name: Resubmit NRIC
+            meta:
+              id: fld_6c4c2110a6d7472382b0066dc204bae4
+              created: 1773031293428
+              modified: 1773031293428
+              sortKey: -1773031293428
+              description: ""
+            children:
+              - url: "{{ _.BASE_API_URL }}"
+                name: Resubmit NRIC
+                meta:
+                  id: req_9fc9fa38d66c4676aea80eb08d17cb27
+                  created: 1773031306193
+                  modified: 1773032399086
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1773031296382
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/user/resubmission",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"nricBackFileId": "f54bf4c1-a9cd-4c65-9f07-e4aad71a722a",
+                    		"nricFrontFileId": "f54bf4c1-a9cd-4c65-9f07-e4aad71a722a",
+                    		"sourceFile": "camera"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Renew Medical Declaration
+                meta:
+                  id: req_a9e458f5694a4af4960bd65fa9cafee6
+                  created: 1773041108034
+                  modified: 1773041224673
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1772919912816.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/user/renew_medical_declaration",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"declarations": {
+                    			"physicalImpairment": true,
+                    			"longTermMedication": {
+                    				"answer": true,
+                    				"details": "hello world"
+                    			},
+                    			"criminalRecord": false
+                    		}
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.3.1
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+          - name: File Upload
+            meta:
+              id: fld_e3f77c1aac934cd6aae0b7a1d76b7bf6
+              created: 1773031807125
+              modified: 1773031812598
+              sortKey: -1773031807125
+              description: ""
+            children:
+              - url: "{{ _.BASE_API_URL }}/user/uploads/private-document"
+                name: Private Document
+                meta:
+                  id: req_d2b9e727c46e4ee2abfb29e26dfcb583
+                  created: 1773031824049
+                  modified: 1773032166776
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1773031824049
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: file
+                      value: ""
+                      description: ""
+                      disabled: false
+                      fileName: /Users/fransiskusbenny/Downloads/logomark.png
+                      type: file
+                    - name: document_type
+                      value: nric
+                      description: ""
+                      disabled: false
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/12.4.0
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}/user/uploads/profile-image"
+                name: Profile Image
+                meta:
+                  id: req_d4cdbceacad244fcb7c5bc1633192f17
+                  created: 1773032175001
+                  modified: 1773032291485
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1773031560215.5
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: file
+                      value: ""
+                      description: ""
+                      disabled: false
+                      fileName: /Users/fransiskusbenny/Downloads/logomark.png
+                      type: file
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/12.4.0
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+        headers:
+          - name: Authorization
+            value: "{% response 'body', 'req_dde9209161344cc19db1d3c87e6ca963',
+              'b64::JC5yZXN1bHQuYWNjZXNzVG9rZW4=::46b', 'never', 60 %}"
+            description: registration token
+            disabled: true
+          - name: Authorization
+            value: "{% response 'body', 'req_f3d209195ec54893bbb5484669e8fee2',
+              'b64::JC5yZXN1bHQuYWNjZXNzVG9rZW4=::46b', 'never', 60 %}"
+            description: login token
+            disabled: false
+  - name: Admin Panel
+    meta:
+      id: fld_e04e53afd4484c4abb4da38845d69ece
+      created: 1770971555655
+      modified: 1771822839049
+      sortKey: -1770971555655
+      description: ""
+    children:
+      - name: Auth
+        meta:
+          id: fld_67d50b66cf474f798ee02106372d4057
+          created: 1769501283725
+          modified: 1771822839049
+          sortKey: -1771593289304
+          description: ""
+        children:
+          - name: Private
+            meta:
+              id: fld_fef4881ca66a4dd793fae51a362a4295
+              created: 1769615267564
+              modified: 1770352881010
+              sortKey: -1769615267564
+              description: ""
+            children:
+              - url: "{{ _.BASE_API_URL }}"
+                name: Me
+                meta:
+                  id: req_2956605de49f4c02bcb722c4b8043e0b
+                  created: 1769588427474
+                  modified: 1770360661604
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769615271393
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/admin/me",
+                    	"jsonrpc": "2.0",
+                    	"id": 1
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Resend Setup Link
+                meta:
+                  id: req_14a2c018a83d45cfa1c82b1c30fd46b5
+                  created: 1770625027666
+                  modified: 1770879387568
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769615271343
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |
+                    {
+                      "method": "private/admin/resend_setup_link",
+                      "jsonrpc": "2.0",
+                      "id": 1,
+                      "params": {
+                    		"id": "0d229ccb-082f-4cb4-93d2-c2861ed7504f"
+                      }
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+          - name: Public
+            meta:
+              id: fld_7b310fa04c8842d19d9c0fb0f6bb6259
+              created: 1769615278825
+              modified: 1770352881009
+              sortKey: -1769615278825
+              description: ""
+            children:
+              - url: "{{ _.BASE_API_URL }}"
+                name: Login
+                meta:
+                  id: req_90d0d31a388b45b9b4e2b6f2fff1c807
+                  created: 1769501287689
+                  modified: 1770689655301
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769615283555
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "public/admin/login",
+                    	"jsonrpc": "2.0",
+                    	"id": {% faker 'randomInt' %},
+                    	"params": {
+                    		"email": "superadmin@mail.com",
+                    		"password": "Admin@123"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Verify 2FA
+                meta:
+                  id: req_fc9d4d022ba9489eacbbd337300f0d31
+                  created: 1769502327568
+                  modified: 1770879633652
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769615283455
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"method": "public/admin/verify_2fa",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"token": "{% response 'body', 'req_90d0d31a388b45b9b4e2b6f2fff1c807', 'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}",
+                    		"code": "631335"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: response
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Setup Password
+                meta:
+                  id: req_ffbce04e06024a009f3d05a400a28249
+                  created: 1769615001332
+                  modified: 1770352881014
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769615283405
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"method": "public/admin/setup_password",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njk3MDIwOTQsImlhdCI6MTc2OTYxNTY5NCwic3ViIjoiZjZjZjA0MzctM2E0Ny00NjQ2LTljMDEtZDlkYzAxODgyOWM0IiwidHlwZSI6InNldHVwIn0.yBPk-0QKtSwFyx6STwwUGjLY2mEVZy4EJGGQJbRO5BQ",
+                    		"password": "Admin@123",
+                    		"confirmPassword": "Admin@123"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Forgot Password
+                meta:
+                  id: req_7eebf3b2f26a441a90c7fcde6800b527
+                  created: 1770623702646
+                  modified: 1771822839049
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769615277399
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "public/admin/forgot_password",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"email": "aa@aa.aa"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Reset Password
+                meta:
+                  id: req_90d1135f98ef4d1087332a2c73ea43f4
+                  created: 1770623719506
+                  modified: 1771822839049
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769615275991.3438
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"method": "public/admin/reset_password",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzA4NjY1MTEsImlhdCI6MTc3MDc4MDExMSwibm9uY2UiOiI2MzNjZDhhOTAzOTZmZTVkNjA3N2E2NDJlZWZlYjlkNjk4NmY2ZGQwNDY1NDc1YTI5YTk2ZWJkYjRjYjExODY5Iiwic3ViIjoiMzhlNmRlYjAtNjQ5MC00ODQ2LWFkYTctYTllODY4ZDEyZWZiIiwidHlwZSI6InBhc3N3b3JkX3Jlc2V0In0.FZ6-N3bdKOkVz2S5zPoAY2yPVCsMw5XMJmoM20B03s8",
+                    		"password": "Admin@123",
+                    		"confirmPassword": "Admin@123"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Resend Setup Link
+                meta:
+                  id: req_a10c536243e7458ebc168143ac6b344b
+                  created: 1770623815646
+                  modified: 1770689637710
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769615277399
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"method": "public/admin/resend_setup_link",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzA2NTQzMjcsImlhdCI6MTc3MDY1NDIwNywibm9uY2UiOiJhYmI3OGIzNzhiOWJlZDljNWRmMThkODZjOWZiYWQ3NDNhOTZjN2UxN2Y0NDVlMDJlZDU5NzlkMTcyOTNkMDIwIiwic3ViIjoiNWFlN2U4MjMtNzhmNC00MjAzLThhYWQtZjc2MDVkODUzMmQ4IiwidHlwZSI6InNldHVwIn0.ikjmWMCPDeQ_85MqiFRUnpZt_hj5QYCpQRt9cPQz3EY"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Check Reset Token
+                meta:
+                  id: req_146a91e6e7bb4cdb85a6c79489abd7f2
+                  created: 1770624292655
+                  modified: 1770879387568
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769615272894.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"method": "public/admin/check_reset_token",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzA3MTM2OTgsImlhdCI6MTc3MDYyNzI5OCwic3ViIjoiZGE1Y2RmN2YtMmYxMS00MWM2LWI0YzktOTkwMGQ5NzA1OGQxIiwidHlwZSI6InBhc3N3b3JkX3Jlc2V0In0.r9EbCggolKa5njesMxeDTKKxrNv99dCMhF0fLZpbmMI"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Check Setup Token
+                meta:
+                  id: req_da2b13a80696430497808c0b4ddeac8b
+                  created: 1770629732418
+                  modified: 1770879387568
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769615280402
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"method": "public/admin/check_setup_token",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzA2NTQ0ODMsImlhdCI6MTc3MDY1NDM2Mywibm9uY2UiOiJlNjEwM2ZjNzRiNTJhYWE5Mzk2NTkyZDU3NGNhN2YwNGFiYWJkYTcyMzJiN2E0MGJjYjJlNzBlZDJmMDI3ZGI2Iiwic3ViIjoiNWFlN2U4MjMtNzhmNC00MjAzLThhYWQtZjc2MDVkODUzMmQ4IiwidHlwZSI6InNldHVwIn0.aCrhNCQSKIyhZs78rQLXzq9jn7-jITGFOEHushWo9OI"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Resend OTP
+                meta:
+                  id: req_1db98ec2663a4b77a30beee93f7e0310
+                  created: 1770647376096
+                  modified: 1770689637709
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769615283430
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"method": "public/admin/resend_otp",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"token": "{% response 'body', 'req_90d0d31a388b45b9b4e2b6f2fff1c807', 'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: response
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Verify 2FA Reset Password
+                meta:
+                  id: req_782ecbf6a3b64fea99a499c57f869a7d
+                  created: 1770651859852
+                  modified: 1771822839049
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769615275897.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"method": "public/admin/verify_reset_otp",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"token": "{% response 'body', 'req_90d1135f98ef4d1087332a2c73ea43f4', 'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}",
+                    		"code": "235144"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Resend Reset Link
+                meta:
+                  id: req_4b63e895a8a94c6192ba3d1e3c8042cb
+                  created: 1770773718159
+                  modified: 1770879387568
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769615276085.1875
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: >-
+                    {
+                    	"method": "public/admin/resend_reset_link",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzA3NzM4NjYsImlhdCI6MTc3MDc3Mzc0Niwibm9uY2UiOiI3NTE3NmJkODFkNjRhMDMzM2FjY2M0ZmM5NDhkOTQ3MGRlZTI4ZWIyNTUxNWIxNjYzN2YxMzc3ZjFmNDNlYWNlIiwic3ViIjoiNmExNTUwZjctZmE5OC00NDUwLWExNTgtZDI5ZDllMjE1OTA0IiwidHlwZSI6InBhc3N3b3JkX3Jlc2V0In0.s9o1yRoMvKiGoxm5s5fZON2SrtfDoouBlspSl7M2bYg"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+      - name: Admin Management
+        meta:
+          id: fld_c4982ea645ae4170a5c5e57cc90ab988
+          created: 1769618271981
+          modified: 1771822839049
+          sortKey: -1771593289279
+          description: ""
+        children:
+          - name: Private
+            meta:
+              id: fld_46d4dfa7378c4be38617206b45224cb2
+              created: 1769618340485
+              modified: 1770352881008
+              sortKey: -1769618340486
+              description: ""
+            children:
+              - url: "{{ _.BASE_API_URL }}"
+                name: Create Admin
+                meta:
+                  id: req_756c10fb02ab4ba184297dba331d5fd4
+                  created: 1769615299424
+                  modified: 1770352881012
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769618348968
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/admin/create",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"name": "AA",
+                    		"email": "aa@aa.aa",
+                    		"roleIds": [
+                    			5
+                    		]
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Get Admins
+                meta:
+                  id: req_5f35853c89a24cf29ba7b50d2d3cce3a
+                  created: 1769660332295
+                  modified: 1770360494068
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769618349068
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/admin/get_admins",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"page": 1,
+                    		"limit": 20
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Get Admin
+                meta:
+                  id: req_d6196527ae07496e9b95a1183734e058
+                  created: 1769660369360
+                  modified: 1770360477760
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769618349018
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/admin/get",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": { 
+                    		"id": "0c299c0c-c403-4848-b824-2fa0e0315e5b"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Update Admin
+                meta:
+                  id: req_428881c43ed944ddb1f2120a5ceff565
+                  created: 1769660612589
+                  modified: 1770352881011
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769616816261.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/admin/update",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"id": "226a6d48-f992-43e9-8b44-25433485825c",
+                    		"status": "DISABLED"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Delete Admin
+                meta:
+                  id: req_681f8a5024e244abb8e614121dd7b17c
+                  created: 1769660618079
+                  modified: 1770352881012
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769616049908.25
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/admin/delete",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"id": "f6cf0437-3a47-4646-9c01-d9dc018829c4"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Get Roles
+                meta:
+                  id: req_8d633133de6645ab91ecabb7977f0f60
+                  created: 1769710284457
+                  modified: 1770352881013
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769618348993
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/admin/get_roles",
+                    	"jsonrpc": "2.0",
+                    	"id": 1
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Get Activity Logs
+                meta:
+                  id: req_271271a4b805425e836a69f295c98168
+                  created: 1770088328749
+                  modified: 1770956118941
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769618348975.8125
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/admin/get_activity_logs",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"page": 1,
+                    		"limit": 20,
+                    		"type": ["admin_mgmt"]
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Get Activity Log
+                meta:
+                  id: req_10c3a65abeb343f093547a767fd0718d
+                  created: 1770088618848
+                  modified: 1770352881010
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769618348974.25
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/admin/get_activity_log",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"id": "44d6cdd0-0a81-4423-b79c-d35923a36ee0"
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Get Access Logs
+                meta:
+                  id: req_e8114da2962b48619c1e85341744e44e
+                  created: 1770088635440
+                  modified: 1770352881013
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769618348977.375
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/admin/get_access_logs",
+                    	"jsonrpc": "2.0",
+                    	"id": 1,
+                    	"params": {
+                    		"page": 1,
+                    		"limit": 20
+                    	}
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.BASE_API_URL }}"
+                name: Get Activity Types
+                meta:
+                  id: req_662f57d3f46a4f9d9d355d5115ef8325
+                  created: 1770179871893
+                  modified: 1770352881012
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1769618348971.125
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"method": "private/admin/get_activity_types",
+                    	"jsonrpc": "2.0",
+                    	"id": 1
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/12.2.0
+                    description: ""
+                    disabled: false
+                  - name: Authorization
+                    value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                      'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                    description: ""
+                    disabled: false
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+      - name: User Management
+        meta:
+          id: fld_729c94e86d7a48ab83b6b4288f2dbbe6
+          created: 1770273421927
+          modified: 1771822839049
+          sortKey: -1771593289254
+          description: ""
+        children:
+          - name: Micro Jobbers
+            meta:
+              id: fld_ca70f190c2654ed0905bc0b7fd8b831d
+              created: 1770273411291
+              modified: 1770689637710
+              sortKey: -1770630483519
+              description: ""
+            children:
+              - name: Private
+                meta:
+                  id: fld_e4a1e07fea904005bad459f819a7d84d
+                  created: 1770273411293
+                  modified: 1770352881009
+                  sortKey: -1769618340486
+                  description: ""
+                children:
+                  - url: "{{ _.BASE_API_URL }}"
+                    name: Get Activity Logs
+                    meta:
+                      id: req_a9f4dc70f2d64843836dab4ee0757fb4
+                      created: 1770277786961
+                      modified: 1770956118941
+                      isPrivate: false
+                      description: ""
+                      sortKey: -1770480466105.3438
+                    method: POST
+                    body:
+                      mimeType: application/json
+                      text: >-
+                        {
+                        	"method": "private/admin/get_microjobber_activity_logs",
+                        	"jsonrpc": "2.0",
+                        	"id": 1,
+                        	"params": {
+                        		"page": 1,
+                        		"limit": 10,
+                        		"type": [
+                        			"account_settings",
+                        			"jobs"
+                        		],
+                        		"activity": [
+                        			"create_account",
+                        			"logged_in",
+                        			"submit_application"
+                        		],
+                        		"startDate": "2022-01-01",
+                        		"endDate": "2029-12-31",
+                        		"sort": "createdAt"
+                        	}
+                        }
+                    headers:
+                      - name: Content-Type
+                        value: application/json
+                      - name: User-Agent
+                        value: insomnia/12.3.1
+                        description: ""
+                        disabled: false
+                      - name: Authorization
+                        value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                          'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                        description: ""
+                        disabled: false
+                    settings:
+                      renderRequestBody: true
+                      encodeUrl: true
+                      followRedirects: global
+                      cookies:
+                        send: true
+                        store: true
+                      rebuildPath: true
+                  - url: "{{ _.BASE_API_URL }}"
+                    name: Get Activity Log
+                    meta:
+                      id: req_bb1af6b6b4554670817ed0fbb046e9df
+                      created: 1770278392579
+                      modified: 1770689637710
+                      isPrivate: false
+                      description: ""
+                      sortKey: -1770414448134.0156
+                    method: POST
+                    body:
+                      mimeType: application/json
+                      text: |-
+                        {
+                        	"method": "private/admin/get_microjobber_activity_log",
+                        	"jsonrpc": "2.0",
+                        	"id": 1,
+                        	"params": {
+                        		"id": "da4db01a-c4ec-4140-a309-577b11597ce5"
+                        	}
+                        }
+                    headers:
+                      - name: Content-Type
+                        value: application/json
+                      - name: User-Agent
+                        value: insomnia/12.3.1
+                        description: ""
+                        disabled: false
+                      - name: Authorization
+                        value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                          'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                        description: ""
+                        disabled: false
+                    settings:
+                      renderRequestBody: true
+                      encodeUrl: true
+                      followRedirects: global
+                      cookies:
+                        send: true
+                        store: true
+                      rebuildPath: true
+                  - url: "{{ _.BASE_API_URL }}"
+                    name: Get Activity Types
+                    meta:
+                      id: req_996c84acd73c49c1ae50038ec2b0a58e
+                      created: 1770279525524
+                      modified: 1770689637710
+                      isPrivate: false
+                      description: ""
+                      sortKey: -1770381439148.3516
+                    method: POST
+                    body:
+                      mimeType: application/json
+                      text: >
+                        {
+                          "method": "private/admin/get_microjobber_activity_types",
+                          "jsonrpc": "2.0",
+                          "id": 1
+                        }
+                    headers:
+                      - name: Content-Type
+                        value: application/json
+                      - name: User-Agent
+                        value: insomnia/12.3.1
+                        description: ""
+                        disabled: false
+                      - name: Authorization
+                        value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                          'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                        description: ""
+                        disabled: false
+                    settings:
+                      renderRequestBody: true
+                      encodeUrl: true
+                      followRedirects: global
+                      cookies:
+                        send: true
+                        store: true
+                      rebuildPath: true
+                  - url: "{{ _.BASE_API_URL }}"
+                    name: Get Autocomplete Address
+                    meta:
+                      id: req_d8bdd7e1c98a478d833f627522f30423
+                      created: 1770570419572
+                      modified: 1770689637710
+                      isPrivate: false
+                      description: ""
+                      sortKey: -1769615379336.6562
+                    method: POST
+                    body:
+                      mimeType: application/json
+                      text: >-
+                        {
+                        	"method": "private/admin/autocomplete_address_microjobbers",
+                        	"jsonrpc": "2.0",
+                        	"id": 1,
+                        	"params": {
+                        		"search": "clementi ave"
+                        	}
+                        }
+                    headers:
+                      - name: Content-Type
+                        value: application/json
+                      - name: User-Agent
+                        value: insomnia/12.3.1
+                        description: ""
+                        disabled: false
+                      - name: Authorization
+                        value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                          'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                        description: ""
+                        disabled: false
+                    settings:
+                      renderRequestBody: true
+                      encodeUrl: true
+                      followRedirects: global
+                      cookies:
+                        send: true
+                        store: true
+                      rebuildPath: true
+                  - name: Addresses
+                    meta:
+                      id: fld_7ab858ef21524593aed6fbf016aea4f9
+                      created: 1770612502048
+                      modified: 1770612502048
+                      sortKey: -1770612502048
+                      description: ""
+                    children:
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get List
+                        meta:
+                          id: req_5c36793c3cda4051b586091b69e7e238
+                          created: 1770612526028
+                          modified: 1773044996428
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770393812869.5
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                            	"method": "private/admin/microjobbers/addresses",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"page": 1,
+                            		"limit": 10,
+                            		"filters": {
+                            			"microjobberId": "76b81d7c-1fe8-4bac-9769-90dbc43de6de"
+                            		}
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Create
+                        meta:
+                          id: req_d00038ca30704b2d88595edfedea1b0c
+                          created: 1770612920999
+                          modified: 1773044925599
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770393812769.5
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                            	"method": "private/admin/microjobbers/addresses/create",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"microjobberId": "76b81d7c-1fe8-4bac-9769-90dbc43de6de",
+                            		"label": "{% randomAddress 'countryName' %}",
+                            		"address": "{% fakeAddress 'streetName' %}",
+                            		"floorUnit": "123"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Update
+                        meta:
+                          id: req_bd806a592ed840f7821ba526fc539224
+                          created: 1770612965054
+                          modified: 1770613695311
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770284454004.25
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                            	"method": "private/admin/update_microjobber_addresses",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"addressId": "a7710484-80f0-4fb0-bfd0-5cb45e775d03",
+                            		"label": "Test Label 1",
+                            		"address": "Test Address 1",
+                            		"floorUnit": "123"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Delete
+                        meta:
+                          id: req_4ff685c19ad147178e88cdce87696e02
+                          created: 1770613127230
+                          modified: 1770613186061
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770229774621.625
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                            	"method": "private/admin/delete_microjobber_addresses",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"addressIds": ["c5485d5f-55f5-419f-ad2e-f4c46f65b9ae", "f8ceb722-c171-4e21-ab5f-29300ae115e2"]
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                  - name: Accounts
+                    meta:
+                      id: fld_d008fa4dae2045f99c8350dc2572bfcd
+                      created: 1770619622795
+                      modified: 1770619622795
+                      sortKey: -1770619622795
+                      description: ""
+                    children:
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get Accounts
+                        meta:
+                          id: req_a4064087ab3d40748b2ab1a1c222f049
+                          created: 1770366227346
+                          modified: 1770619658754
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770619656799
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >
+                            {
+                              "method": "private/admin/get_microjobber_accounts",
+                              "jsonrpc": "2.0",
+                              "id": 1,
+                            	"params": {
+                            		"microjobberId": "1003b560-f7dd-4b03-899b-f5e8c37bf9c9",
+                            		"page": 1,
+                            		"limit": 10,
+                            		"sort": "-created_at",
+                            		"filter": {
+                            			"type": ["Funds Received", "Withdrawal"]
+                            		}
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.3.1
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get Account Overview
+                        meta:
+                          id: req_313c0afbe6634197bd6ac35b71b85e5a
+                          created: 1770368474375
+                          modified: 1770619656731
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770619656699
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >
+                            {
+                              "method": "private/admin/get_microjobber_account_overview",
+                              "jsonrpc": "2.0",
+                              "id": 1,
+                            	"params": {
+                            		"microjobberId": "1003b560-f7dd-4b03-899b-f5e8c37bf9c9"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.3.1
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                  - name: Certificates
+                    meta:
+                      id: fld_dddeaa3f412e4c2bb830bfcdcd01a103
+                      created: 1770626554726
+                      modified: 1770627442029
+                      sortKey: -1770623088760.5
+                      description: ""
+                    children:
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get List
+                        meta:
+                          id: req_fae001f3f4b34c6ca1d30496e428ad03
+                          created: 1770627433590
+                          modified: 1770627467142
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770627439774
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                            	"method": "private/admin/get_microjobber_certificates",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"microjobberId": "1003b560-f7dd-4b03-899b-f5e8c37bf9c9",
+                            		"page": 1,
+                            		"limit": 10
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Create
+                        meta:
+                          id: req_0a8f75265d76438c868f144fc6eb0226
+                          created: 1770627495826
+                          modified: 1770705283523
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770623548286.5
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                            	"method": "private/admin/create_microjobber_certificates",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"microjobberId": "1003b560-f7dd-4b03-899b-f5e8c37bf9c9",
+                            		"name": "Test",
+                            		"issuingOrganization": "Org",
+                            		"issueDate": "2025-01-01",
+                            		"expiryDate": "2025-01-02",
+                            		"certificateUrl": "http://localhost:8080/uploads/admin/temp/sd7mix0i0A27JyMCtQHxU7rRWGYGTI.png"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Update
+                        meta:
+                          id: req_eb2c0d24922a431092252fda020bb3af
+                          created: 1770627627629
+                          modified: 1770699514286
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770621602542.75
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                            	"method": "private/admin/update_microjobber_certificates",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"certificateId": "b0b6d417-1a82-4c6e-835a-014474ab73de",
+                            		"name": "Test Update",
+                            		"issuingOrganization": "Update Org",
+                            		"issueDate": "2025-01-01",
+                            		"expiryDate": "2025-01-02",
+                            		"certificateUrl": "http://localhost:8080/uploads/microjobbers/certificates/vM5H3tIiai0QUI101dXmrSzqSCF1jc.png"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Delete
+                        meta:
+                          id: req_eebf12da4d974b149ef020bd56350d2e
+                          created: 1770627661052
+                          modified: 1770629105381
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770620629670.875
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                            	"method": "private/admin/delete_microjobber_certificates",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"certificateIds": ["e7647a91-5a9d-48b7-a7af-5fe4250ea57a", "d5c38c4e-fbd5-40a4-b80b-3828ad97e506", "a2ecdf13-2128-43d4-a546-54ba8c5a36ad", "8219db60-ac53-49f0-a2e8-0baa0bf93bf8", "80edfdae-ef57-47b3-bec8-9dfd171d4af3", "756e037c-df63-4a7d-9fdd-7e8037d9ff08", "614b1254-3beb-4088-ba2c-904d592dcdfe", "5b66d908-f4c2-4a2c-87fa-896b22f03adb", "4b343004-1040-41fe-b1dc-bbb72083cad5", "46b4b29e-d6b3-4642-8f41-5b99ff67559c", "4257b6c7-7057-4314-a3fa-7ffd190cfd41", "3999ab05-5511-42bc-956a-930f90df8763", "3895e7a9-a338-4b96-a1d5-37fc43e17003", "3511b869-cb1a-467f-9ca0-d3165e6f1070", "0f8d52c7-42dc-41aa-b625-0197778c8318", "0510cc97-7cad-4484-bd9a-ef1888d758a0"]
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get Details
+                        meta:
+                          id: req_f67c260022134cd88465f449afdf6713
+                          created: 1770699740939
+                          modified: 1770699785028
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770625494030.25
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                            	"method": "private/admin/get_details_microjobber_certificates",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"certificateId": "b0b6d417-1a82-4c6e-835a-014474ab73de"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                  - name: Micro Jobbers List
+                    meta:
+                      id: fld_760a4d0269e74f6dbd0549f8b4c649c2
+                      created: 1770630016383
+                      modified: 1771822839049
+                      sortKey: -1770623088960.5
+                      description: ""
+                    children:
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Create Micro Jobber
+                        meta:
+                          id: req_2dd327880c53443f96115706710fb6de
+                          created: 1770273411294
+                          modified: 1773114996470
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770630080008
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"method": "private/admin/microjobbers/create",
+                            	"jsonrpc": "2.0",
+                            	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                            	"params": {
+                            		"userId": "HelloWorl",
+                            		"race": "Others",
+                            		"name": "{% randomName 'fullName', 'male' %}",
+                            		"nricNumber": "S12345678",
+                            		"phoneNumber": "+62853343{% randomDatatypeNumber 10000, 99999, false, 4 %}",
+                            		"birthDate": "2020-12-01",
+                            		"gender": "M", 
+                            	  "email": null,
+                            		"homeAddress": "{% fakeAddress 'addressLine1' %}",
+                            		"floorUnit": "2A"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get Micro Jobbers
+                        meta:
+                          id: req_ff6c58429dd745eb896af6518aa4e09e
+                          created: 1770273411295
+                          modified: 1772783313996
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770630080208
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: |-
+                            {
+                            	"id": 1,
+                            	"method": "private/admin/microjobbers",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"page": 1,
+                            		"limit": 20,
+                            		"search": "",
+                            		"sort": "-name",
+                            		"filter": {
+                            			"status": [],
+                            			"earningsStartDate": null,
+                            			"earningsEndDate": null
+                            		}
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get Micro Jobber
+                        meta:
+                          id: req_82abd0f1d40c47bc8d0b5f4f31ebe959
+                          created: 1770273411296
+                          modified: 1772783603517
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770630080108
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: |-
+                            {
+                            	"method": "private/admin/microjobbers/details",
+                            	"jsonrpc": "2.0",
+                            	"id": 1,
+                            	"params": { 
+                            		"id": "630ad95d-d080-4af4-ade5-b6b127481970"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Update Micro Jobber
+                        meta:
+                          id: req_222c542d581247a1a596914eba335a79
+                          created: 1770273411297
+                          modified: 1772609281431
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770630079908
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: |-
+                            {
+                            	"method": "private/admin/microjobbers/update",
+                            	"jsonrpc": "2.0",
+                            	"id": 1,
+                            	"params": {
+                            		"id": "aa448d34-cac1-4430-86df-dc9d3b408d3d",
+                            		"name": "Benny Halim",
+                            		"nricNumber": "S1234567Z",
+                            		"phoneNumber": "+6581234560",
+                            		"gender": "F",  
+                            		"email": "bb@bb.bb",
+                            		"avatarUrl": "123123"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Delete Micro Jobber
+                        meta:
+                          id: req_6fb433dda0ae4b71897024171e9ea68f
+                          created: 1770273411297
+                          modified: 1772609408912
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770630079808
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: |-
+                            {
+                            	"method": "private/admin/microjobbers/delete",
+                            	"jsonrpc": "2.0",
+                            	"id": 1,
+                            	"params": {
+                            		"ids": [
+                            			"f8317092-f02a-44f4-8a5c-f062b589c90c",
+                            			"573b7fe5-eda3-4dd3-91a5-6bfe5193e215"
+                            		]
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                  - name: Resumes -- Languages
+                    meta:
+                      id: fld_9ef749b14f5641e9aabaa490e2948505
+                      created: 1770740866792
+                      modified: 1770879387568
+                      sortKey: -1770546484076.6719
+                      description: ""
+                    children:
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get Languages
+                        meta:
+                          id: req_0e48b35b5e074d58a1009cf342a86c96
+                          created: 1770740866796
+                          modified: 1770879387568
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770393812869.5
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": 1,
+                            	"method": "private/admin/get_microjobber_languages",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"page": 1,
+                            		"limit": 10,
+                            		"filters": {
+                            			"microjobber_id": "f5141873-6b9e-45c5-a0bf-f4bc2f7cd564"
+                            		}
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Create Language
+                        meta:
+                          id: req_0b4f2580abdd497cbfee5a25af071553
+                          created: 1770740866798
+                          modified: 1770879387568
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770393812769.5
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": 1,
+                            	"method": "private/admin/create_microjobber_languages",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"microjobber_id": "f5141873-6b9e-45c5-a0bf-f4bc2f7cd564",
+                            		"language_name": "Mandaaazz",
+                            		"proficiency_level": "gegeehhzz"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Update Language
+                        meta:
+                          id: req_8d82fd5a824f4dd8b8d8ece36b083481
+                          created: 1770740866800
+                          modified: 1770879387568
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770284454004.25
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": 1,
+                            	"method": "private/admin/update_microjobber_languages",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"id": "58497dda-db49-46c0-a46e-9b9f444fd118",
+                            		"language_name": "Mandaaa",
+                            		"proficiency_level": "gegeehh"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Delete Language
+                        meta:
+                          id: req_80c22a54944c49db91f3f34e8e35811d
+                          created: 1770740866801
+                          modified: 1770879387568
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770229774621.625
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": 1,
+                            	"method": "private/admin/delete_microjobber_languages",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"microjobber_language_ids": ["58497dda-db49-46c0-a46e-9b9f444fd118"]
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                  - name: Jobs
+                    meta:
+                      id: fld_ad41f7c9074a4c3caf5d89b56bc42da6
+                      created: 1770867066516
+                      modified: 1771822839049
+                      sortKey: -1770623088860.5
+                      description: ""
+                    children:
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get Jobs
+                        meta:
+                          id: req_6d7dbe1460de4b97a95c31ce1c496cf7
+                          created: 1770867066521
+                          modified: 1772785169549
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770393812869.5
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: |-
+                            {
+                            	"id": 1,
+                            	"method": "private/admin/microjobbers/jobs",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"page": 1,
+                            		"limit": 10,
+                            		"id": "e798eba8-fc7a-460a-94b9-d22053bda974"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get Jobs Overview
+                        meta:
+                          id: req_7156905c8fa3454292adbc909c6db7bc
+                          created: 1770867115090
+                          modified: 1771822839049
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770393812819.5
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": 1,
+                            	"method": "private/admin/get_microjobber_jobs_overview",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"microjobberId": "e798eba8-fc7a-460a-94b9-d22053bda974"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get Jobs Rating
+                        meta:
+                          id: req_94ce4e080c614855b49943b1b7e4a985
+                          created: 1770867127537
+                          modified: 1771822839049
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770393812794.5
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": 1,
+                            	"method": "private/admin/get_microjobber_jobs_rating",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"page": 1,
+                            		"limit": 10,
+                            		"microjobberId": "e798eba8-fc7a-460a-94b9-d22053bda974"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get Jobs Rating Overview
+                        meta:
+                          id: req_c33b0aac260c47fa9ef7ac14994558d7
+                          created: 1770867138948
+                          modified: 1771822839049
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770393812782
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": 1,
+                            	"method": "private/admin/get_microjobber_jobs_rating_overview",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"microjobberId": "e798eba8-fc7a-460a-94b9-d22053bda974"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                  - name: Update Avatar
+                    meta:
+                      id: fld_9722e2e74e3b49dab292bd8888cac8b3
+                      created: 1770964741347
+                      modified: 1770964771795
+                      sortKey: -1770964741347
+                      description: ""
+                    children:
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Update Avatar URL
+                        meta:
+                          id: req_b238d336779c471497d60dfd4c35e521
+                          created: 1770964759910
+                          modified: 1770965337390
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1770964784182
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"id": 1,
+                            	"method": "private/admin/update_microjobber_avatar_url",
+                            	"jsonrpc": "2.0",
+                            	"params": {
+                            		"microjobberId": "5b0bbd1a-a5b7-4935-a4b1-66b90dcf59b2",
+                            		"avatarUrl": "https://storage.googleapis.com/thk-microjob-dev-public/profile-images/f0658b84-846a-4560-8e66-6f5d37a4ce6a/fab57c95-eb45-41a8-b4f1-1ef2a3916587.png"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.2.0
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                  - name: Actions
+                    meta:
+                      id: fld_c2e7d6bfdbe94110a1b539e474ddcb02
+                      created: 1771568262409
+                      modified: 1771568262409
+                      sortKey: -1771568262409
+                      description: ""
+                    children:
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get list
+                        meta:
+                          id: req_d1771e241ef54b9dbd4f7f4bb0c1e7dc
+                          created: 1771568283831
+                          modified: 1771570886854
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1771568273952
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >-
+                            {
+                            	"method": "private/admin/get_microjobber_actions",
+                            	"jsonrpc": "2.0",
+                            	"id": 1,
+                            	"params": {
+                            		"page": 1,
+                            		"limit": 10,
+                            		"filters": {
+                            			"microjobberId": "dc514005-6d90-4df8-82e1-707c61c8ec41",
+                            			"reviewType": [],
+                            			"dateFrom": "2026-02-20",
+                            			"dateTo": "2026-02-20"
+                            		}
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.3.1
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+          - name: Job Providers
+            meta:
+              id: fld_fc83e7aa6d954c168ac5822c1aa3ad93
+              created: 1770630483419
+              modified: 1770689637709
+              sortKey: -1770630483419
+              description: ""
+            children:
+              - name: Private
+                meta:
+                  id: fld_16a84b0f4ac249abb87318064182eb96
+                  created: 1770630509369
+                  modified: 1770689637709
+                  sortKey: -1770630509369
+                  description: ""
+                children:
+                  - url: "{{ _.BASE_API_URL }}"
+                    name: Activate/Deactivate
+                    meta:
+                      id: req_6be52a586b4b4b0c817033c60563ab80
+                      created: 1771575771833
+                      modified: 1771832526514
+                      isPrivate: false
+                      description: ""
+                      sortKey: -1771832522611
+                    method: POST
+                    body:
+                      mimeType: application/json
+                      text: >
+                        {
+                          "method": "private/admin/update_job_provider_status",
+                          "jsonrpc": "2.0",
+                          "id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                        	"params": {
+                        		"jobProviderId": "a0000000-0000-0000-0000-000000000003",
+                        		"status": "Active"
+                        	}
+                        }
+                    headers:
+                      - name: Content-Type
+                        value: application/json
+                      - name: User-Agent
+                        value: insomnia/12.3.1
+                        description: ""
+                        disabled: false
+                      - name: Authorization
+                        value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                          'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                        description: ""
+                        disabled: false
+                    settings:
+                      renderRequestBody: true
+                      encodeUrl: true
+                      followRedirects: global
+                      cookies:
+                        send: true
+                        store: true
+                      rebuildPath: true
+                  - name: Accounts
+                    meta:
+                      id: fld_e273a9edbf754e7fb7d2acc3bb7a3d10
+                      created: 1771481559263
+                      modified: 1771481559263
+                      sortKey: -1771481559263
+                      description: ""
+                    children:
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get Accounts
+                        meta:
+                          id: req_a96d2f4336104db8877706688556feb1
+                          created: 1771481570650
+                          modified: 1771482291787
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1771481576847
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >
+                            {
+                              "method": "private/admin/get_job_provider_accounts",
+                              "jsonrpc": "2.0",
+                              "id": 1,
+                            	"params": {
+                            		"page": 1,
+                            		"limit": 10,
+                            		"sort": "-created_at",
+                            		"filters": {
+                            			"jobProviderId": "a0000000-0000-0000-0000-000000000001",
+                            			"type": null
+                            		}
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.3.1
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get Accounts Overview
+                        meta:
+                          id: req_b2edce09008f4b23a28c8369a5b51115
+                          created: 1771482301225
+                          modified: 1771487939482
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1771481576947
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >
+                            {
+                              "method": "private/admin/get_job_provider_account_overview",
+                              "jsonrpc": "2.0",
+                              "id": 1,
+                            	"params": {
+                            		"jobProviderId": "a0000000-0000-0000-0000-000000000001"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.3.1
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                  - name: Roles
+                    meta:
+                      id: fld_a9a7f79cad8c4f41b76550df3be94c78
+                      created: 1771487887614
+                      modified: 1771487887614
+                      sortKey: -1771487887614
+                      description: ""
+                    children:
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get Master Roles
+                        meta:
+                          id: req_4c8e6f893e854593a00140fca7c432ae
+                          created: 1771487927444
+                          modified: 1771822839049
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1771593522894
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: |
+                            {
+                              "method": "private/admin/jp_master_roles",
+                              "jsonrpc": "2.0",
+                              "id": 1,
+                            	"params": {
+                            		
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.3.1
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                  - name: Action Note
+                    meta:
+                      id: fld_be43ad8a8c8d4344a19118ddba6d260e
+                      created: 1771832522511
+                      modified: 1771832522511
+                      sortKey: -1771832522511
+                      description: ""
+                    children:
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Approve
+                        meta:
+                          id: req_58a51befbe864ea0b2892c1ea4d994f3
+                          created: 1771832532454
+                          modified: 1771833080622
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1771832540724
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >
+                            {
+                              "method": "private/admin/job_providers/action_notes/approve",
+                              "jsonrpc": "2.0",
+                              "id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                            	"params": {
+                            		"jobProviderNoteId": "a0000000-0000-0000-0000-000000000001",
+                            		"messageToUser": "",
+                            		"notes": ""
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.3.1
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Reject
+                        meta:
+                          id: req_594bfebd0ed84a73936eb45299dcbfd2
+                          created: 1771833443330
+                          modified: 1771833468810
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1771832531667.5
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >
+                            {
+                              "method": "private/admin/job_providers/action_notes/reject",
+                              "jsonrpc": "2.0",
+                              "id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                            	"params": {
+                            		"jobProviderNoteId": "a0000000-0000-0000-0000-000000000001",
+                            		"messageToUser": "Invalid NRIC",
+                            		"notes": "notes to user"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.3.1
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                  - name: Jobs
+                    meta:
+                      id: fld_53b7c2e9123a4601949569f2a8c133fb
+                      created: 1771918980116
+                      modified: 1771918980116
+                      sortKey: -1771918980116
+                      description: ""
+                    children:
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Overview
+                        meta:
+                          id: req_7030039b6f1e46ae8d916c4b484842ae
+                          created: 1771923833440
+                          modified: 1771923970600
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1771875769987.5
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >
+                            {
+                              "method": "private/admin/job_providers/jobs/overview",
+                              "jsonrpc": "2.0",
+                              "id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                            	"params": {
+                            		"jobProviderId": "a0000000-0000-0000-0000-000000000001"
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.3.1
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+                      - url: "{{ _.BASE_API_URL }}"
+                        name: Get Jobs List
+                        meta:
+                          id: req_a7b336ec4af04d509156f558ab6d9735
+                          created: 1772767500358
+                          modified: 1772767500358
+                          isPrivate: false
+                          description: ""
+                          sortKey: -1771897384619.25
+                        method: POST
+                        body:
+                          mimeType: application/json
+                          text: >
+                            {
+                              "method": "private/admin/job_providers/jobs",
+                              "jsonrpc": "2.0",
+                              "id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                            	"params": {
+                            		"jobProviderId": "a0000000-0000-0000-0000-000000000001",
+                            		"search": "",
+                            		"filters": {
+                            			"jobType": [],
+                            			"status": [],
+                            			"startDate": "2026-03-03",
+                            			"endDate": "2026-03-07"
+                            		}
+                            	}
+                            }
+                        headers:
+                          - name: Content-Type
+                            value: application/json
+                          - name: User-Agent
+                            value: insomnia/12.3.1
+                            description: ""
+                            disabled: false
+                          - name: Authorization
+                            value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                              'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                            description: ""
+                            disabled: false
+                        settings:
+                          renderRequestBody: true
+                          encodeUrl: true
+                          followRedirects: global
+                          cookies:
+                            send: true
+                            store: true
+                          rebuildPath: true
+      - name: File Upload
+        meta:
+          id: fld_f22a5f72e4cf4111921768eee3035506
+          created: 1770693446226
+          modified: 1771822839049
+          sortKey: -1771593289329
+          description: ""
+        children:
+          - url: "{{ _.BASE_API_URL }}/admin/upload"
+            name: Temp Admin Upload
+            meta:
+              id: req_06481ac41c324f6ab99cfcdf59a59ffd
+              created: 1770693452455
+              modified: 1771822839049
+              isPrivate: false
+              description: ""
+              sortKey: -1770693452455
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: file
+                  value: ""
+                  description: ""
+                  disabled: false
+                  fileName: /Users/permanar/Code/Undercurrent/microjobs/mj-monorepo/admin/test.jpg
+                  type: file
+                - name: ""
+                  value: ""
+                  description: ""
+                  disabled: true
+            headers:
+              - name: Content-Type
+                value: multipart/form-data
+              - name: User-Agent
+                value: insomnia/12.3.1
+                description: ""
+                disabled: false
+              - name: Authorization
+                value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                  'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.BASE_API_URL }}/uploads/profile-image"
+            name: Upload Profile Image
+            meta:
+              id: req_56de84e682944cf080a661591405bc8b
+              created: 1770911940556
+              modified: 1771822839049
+              isPrivate: false
+              description: ""
+              sortKey: -1770661766331.5
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: file
+                  value: ""
+                  description: ""
+                  disabled: false
+                  fileName: /Users/permanar/Downloads/0xCargo_vb_logo 1.png
+                  type: file
+                - name: ""
+                  value: ""
+                  description: ""
+                  disabled: true
+            headers:
+              - name: Content-Type
+                value: multipart/form-data
+              - name: User-Agent
+                value: insomnia/12.3.1
+                description: ""
+                disabled: false
+              - name: Authorization
+                value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                  'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.BASE_API_URL }}/uploads/private-document"
+            name: Upload Private Document
+            meta:
+              id: req_3460d71e67fd4aee84d411836ad92a74
+              created: 1770911965850
+              modified: 1771822839049
+              isPrivate: false
+              description: ""
+              sortKey: -1770645923269.75
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: file
+                  value: ""
+                  description: ""
+                  disabled: false
+                  fileName: /Users/permanar/Downloads/—Pngtree—leaf frame for wedding
+                    invitations_5256762.png
+                  type: file
+                - name: document_type
+                  value: other
+                  description: ""
+                  disabled: false
+                - name: ""
+                  value: ""
+                  description: ""
+                  disabled: false
+            headers:
+              - name: Content-Type
+                value: multipart/form-data
+              - name: User-Agent
+                value: insomnia/12.3.1
+                description: ""
+                disabled: false
+              - name: Authorization
+                value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                  'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.BASE_API_URL }}/uploads/profile-image"
+            name: GCS Profile Image Upload
+            meta:
+              id: req_27a2cdc13da04aa7b4188805dce0fee6
+              created: 1770964288000
+              modified: 1770964341751
+              isPrivate: false
+              description: ""
+              sortKey: -1770661766331.5
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: file
+                  value: ""
+                  description: ""
+                  disabled: false
+                  fileName: /Users/fransiskusbenny/Downloads/logoipsum-415.png
+                  type: file
+                - name: ""
+                  value: ""
+                  description: ""
+                  disabled: false
+            headers:
+              - name: Content-Type
+                value: multipart/form-data
+              - name: User-Agent
+                value: insomnia/12.3.1
+                description: ""
+                disabled: false
+              - name: Authorization
+                value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                  'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Jobs
+        meta:
+          id: fld_e98935d369194a64858c9066966e89aa
+          created: 1772767484311
+          modified: 1772767484311
+          sortKey: -1772767484311
+          description: ""
+        children:
+          - url: "{{ _.BASE_API_URL }}"
+            name: Get Jobs List
+            meta:
+              id: req_39f6d61a93ed4e4b83a4d6daff357282
+              created: 1771918992669
+              modified: 1772767612860
+              isPrivate: false
+              description: ""
+              sortKey: -1772767517261
+            method: POST
+            body:
+              mimeType: application/json
+              text: |
+                {
+                  "method": "private/admin/jobs",
+                  "jsonrpc": "2.0",
+                  "id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                	"params": {
+                		"search": "",
+                		"filters": {
+                			"jobType": [],
+                			"status": []
+                		}
+                	}
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.3.1
+                description: ""
+                disabled: false
+              - name: Authorization
+                value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                  'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.BASE_API_URL }}"
+            name: Create Job
+            meta:
+              id: req_ebb088c829c946569db3392cd360c8d3
+              created: 1772767621868
+              modified: 1772780632294
+              isPrivate: false
+              description: ""
+              sortKey: -1772638429652
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"method": "private/admin/jobs/create",
+                	"jsonrpc": "2.0",
+                	"id": {% randomDatatypeNumber 0, 1000, false, 4 %},
+                	"params": {
+                		"jobProviderId": "0a416169-8200-402d-83d5-6632b06a12c6",
+                		"title": "Supermarket Greeting & Survey Assistant",
+                		"jobType": "customer_service",
+                		"jobAssignmentType": "manual",
+                		"jobCutoff": 120,
+                		"jobCutoffUnit": "days",
+                		"jobProximityLimit": 2,
+                		"verificationType": "qr_jp_scans_mj",
+                		"descriptionHtml": "<p>Assist customers at entrance and guide survey flow.</p>",
+                		"requirementsHtml": "<ul><li>Good communication</li><li>Comfortable standing 4 hours</li></ul>",
+                		"addresses": [
+                			{
+                				"stopOrder": 0,
+                				"address": "AMK Hub Pickup Point (Lvl 1), Singapore 560123",
+                				"postal": "560123",
+                				"floorUnit": "#01-01"
+                			},
+                			{
+                				"stopOrder": 1,
+                				"address": "123 Ang Mo Kio Ave 4, #03-04, Singapore 560123",
+                				"postal": "560123",
+                				"floorUnit": "#03-04"
+                			}
+                		],
+                		"openings": [
+                			{
+                				"openingDate": "2026-03-15",
+                				"startTime": "10:00:00",
+                				"endTime": "14:00:00",
+                				"rate": 5,
+                				"openingsCount": 5
+                			}
+                		],
+                		"training_ids": [
+                			
+                		],
+                		"requireNoHealthImpairment": false,
+                		"requireNoLongTermMedication": false,
+                		"requireNoCriminalRecord": false
+                	}
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.3.1
+                description: ""
+                disabled: false
+              - name: Authorization
+                value: "{% response 'body', 'req_fc9d4d022ba9489eacbbd337300f0d31',
+                  'b64::JC5yZXN1bHQudG9rZW4=::46b', 'never', 60 %}"
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_f7c0935c74f70801ae09f3407852ffd727e725bf
+    created: 1770352881030
+    modified: 1770352881030
+environments:
+  name: Base Environment
+  meta:
+    id: env_f7c0935c74f70801ae09f3407852ffd727e725bf
+    created: 1769501188155
+    modified: 1770352881006
+    isPrivate: false
+  data:
+    BASE_API_URL: http://localhost:8080/api/v2
+spec:
+  meta:
+    id: spc_3b6f2cb54ec54e5193dff30db38f0dde
+    created: 1769501188154
+    modified: 1771822808201

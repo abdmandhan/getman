@@ -2,6 +2,9 @@
   "name": "vuetify-project",
   "private": true,
   "type": "module",
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -43,6 +46,7 @@
     "dotenv": "^17.3.1",
     "eslint": "^9.39.2",
     "eslint-config-vuetify": "^4.3.4",
+    "js-yaml": "^4.1.1",
     "prisma": "^7.4.2",
     "sass": "^1.97.1",
     "tailwindcss": "^4.1.18",
