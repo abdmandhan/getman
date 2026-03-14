@@ -29,6 +29,7 @@ export const useAppStore = defineStore('app', {
     async fetchEnvironments() {
       const res = await $fetch<Environment[]>("/api/environments", {});
       this.environments = res ?? [];
+      console.log('storedId', import.meta.client)
       if (import.meta.client) {
         const storedId = localStorage.getItem(SELECTED_ENV_STORAGE_KEY)
         if (storedId) {

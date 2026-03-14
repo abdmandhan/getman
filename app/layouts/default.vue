@@ -219,6 +219,7 @@
                 <v-text-field
                   v-model="addRequestForm.name"
                   label="Request name"
+                  hide-details
                   required
                 />
               </v-col>
@@ -227,14 +228,20 @@
                   v-model="addRequestForm.method"
                   :items="['GET', 'POST', 'PUT', 'PATCH', 'DELETE']"
                   label="Method"
+                  hide-details
                 />
               </v-col>
               <v-col cols="12" sm="8">
-                <v-text-field
+                <!-- <v-text-field
                   v-model="addRequestForm.url"
                   label="URL"
                   placeholder="https://api.example.com/path"
                   required
+                /> -->
+                <env-input
+                  v-model="addRequestForm.url"
+                  label="URL"
+                  placeholder="https://api.example.com/path"
                 />
               </v-col>
               <v-col cols="12">
@@ -611,5 +618,6 @@ async function removeRequest(id: string) {
 onMounted(() => {
   fetchCollectionsTree();
   store.fetchAuthorizations();
+  store.fetchEnvironments();
 });
 </script>

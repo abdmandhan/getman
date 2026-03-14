@@ -180,7 +180,7 @@ const props = defineProps<{
 
 const tabLists = ["docs", "params", "authorization", "headers", "body"];
 
-const tab = ref("authorization");
+const tab = ref("params");
 
 const sendLoading = ref(false);
 const sendError = ref<string | null>(null);
@@ -190,7 +190,7 @@ const params = reactive<{ key: string; value: string; checked: boolean }[]>([
   {
     key: "",
     value: "",
-    checked: true,
+    checked: false,
   },
 ]);
 
