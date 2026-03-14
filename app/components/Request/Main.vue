@@ -205,6 +205,9 @@ async function sendRequest() {
   try {
     const res = await $fetch(`/api/requests/${selectedRequest.value.id}/send`, {
       method: "POST",
+      body: {
+        environmentId: store.selectedEnvironment?.id ?? null,
+      },
     });
     sendResponse.value = res;
   } catch (err: any) {

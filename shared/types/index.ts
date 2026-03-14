@@ -50,3 +50,11 @@ export const EnvironmentVariableSchema = z.object({
 export const validateEnvironmentVariable = (data: unknown): z.infer<typeof EnvironmentVariableSchema> => {
     return EnvironmentVariableSchema.parse(data);
 };
+
+export const SendRequestSchema = z.object({
+    environmentId: z.string().optional().nullable(),
+});
+
+export const validateSendRequest = (data: unknown): z.infer<typeof SendRequestSchema> => {
+    return SendRequestSchema.parse(data);
+};
