@@ -18,6 +18,9 @@
         placeholder="{{ API_URL }}/api/v1/users"
       />
 
+      <v-chip v-if="saveLoading" size="small" color="primary" variant="tonal">
+        Saving...
+      </v-chip>
       <v-btn
         color="primary"
         :loading="sendLoading"
@@ -186,15 +189,74 @@ const sendLoading = ref(false);
 const sendError = ref<string | null>(null);
 const sendResponse = ref<any | null>(null);
 
-const params = reactive<{ key: string; value: string; checked: boolean }[]>([
-  {
-    key: "",
-    value: "",
-    checked: false,
-  },
+const DEBOUNCE_MS = 500;
+
+type ParamRow = { key: string; value: string; checked: boolean };
+
+const params = reactive<ParamRow[]>([
+  { key: "", value: "", checked: false },
 ]);
 
 const selectedRequest = ref<Request | null>(props.request);
+
+const saveLoading = ref(false);
+
+function parseUrl(url: string): { base: string; params: ParamRow[] } {
+  const [base = "", search] = url.split("?");
+  const paramRows: ParamRow[] = [];
+  if (search) {
+    for (const pair of search.split("&")) {
+      const eq = pair.indexOf("=");
+      const key = eq >= 0 ? decodeURIComponent(pair.slice(0, eq)) : decodeURIComponent(pair);
+      const value = eq >= 0 ? decodeURIComponent(pair.slice(eq + 1)) : "";
+      if (key) paramRows.push({ key, value, checked: true });
+    }
+  }
+  if (paramRows.length === 0) paramRows.push({ key: "", value: "", checked: false });
+  return { base, params: paramRows };
+}
+
+function buildUrlWithParams(): string {
+  if (!selectedRequest.value) return "";
+  const base = selectedRequest.value.url.split("?")[0] ?? selectedRequest.value.url;
+  const q = params
+    .filter((p) => p.checked && p.key)
+    .map((p) => `${encodeURIComponent(p.key)}=${encodeURIComponent(p.value)}`)
+    .join("&");
+  return q ? `${base}?${q}` : base;
+}
+
+let saveTimeout: ReturnType<typeof setTimeout> | null = null;
+let skipNextSave = false;
+
+async function saveToDb() {
+  if (skipNextSave) return;
+  if (!selectedRequest.value) return;
+  saveLoading.value = true;
+  try {
+    await $fetch(`/api/requests/${selectedRequest.value.id}`, {
+      method: "PUT",
+      body: {
+        name: selectedRequest.value.name,
+        url: buildUrlWithParams(),
+        method: selectedRequest.value.method,
+        description: selectedRequest.value.description ?? undefined,
+        body_type: selectedRequest.value.body_type,
+        body: selectedRequest.value.body,
+        authorizationId: selectedRequest.value.authorizationId ?? null,
+      },
+    });
+  } catch (err: any) {
+    console.error("Failed to save request", err);
+  } finally {
+    saveLoading.value = false;
+  }
+}
+
+function debouncedSave() {
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(saveToDb, DEBOUNCE_MS);
+}
 
 async function sendRequest() {
   if (!selectedRequest.value) return;
@@ -246,12 +308,28 @@ const urlParams = computed(() => {
 watch(
   () => props.request,
   (newVal) => {
-    selectedRequest.value = newVal;
+    if (saveTimeout) {
+      clearTimeout(saveTimeout);
+      saveTimeout = null;
+    }
+    skipNextSave = true;
+    selectedRequest.value = newVal ? { ...newVal } : null;
+    if (newVal?.url) {
+      const { base, params: parsed } = parseUrl(newVal.url);
+      if (selectedRequest.value) selectedRequest.value.url = base;
+      params.length = 0;
+      parsed.forEach((p) => params.push({ ...p }));
+      if (params.length === 0) params.push({ key: "", value: "", checked: false });
+    }
+    setTimeout(() => {
+      skipNextSave = false;
+    }, DEBOUNCE_MS + 100);
   },
-  {
-    immediate: true,
-  },
+  { immediate: true },
 );
+
+watch(selectedRequest, () => debouncedSave(), { deep: true });
+watch(params, () => debouncedSave(), { deep: true });
 
 async function removeRequest() {
   if (!selectedRequest.value) return;

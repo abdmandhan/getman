@@ -32,6 +32,20 @@ export const validateRequest = (data: unknown): z.infer<typeof RequestSchema> =>
     return RequestSchema.parse(data);
 };
 
+export const RequestUpdateSchema = z.object({
+    name: z.string().min(1).optional(),
+    url: z.string().min(1).optional(),
+    method: z.string().min(1).optional(),
+    body_type: z.enum(Object.values(BodyType)).optional(),
+    body: z.any().nullable().optional(),
+    description: z.string().optional().nullable(),
+    authorizationId: z.string().optional().nullable(),
+    headers: z.record(z.string(), z.string()).optional().nullable(),
+});
+
+export const validateRequestUpdate = (data: unknown): z.infer<typeof RequestUpdateSchema> => {
+    return RequestUpdateSchema.parse(data);
+};
 
 export const EnvironmentSchema = z.object({
     name: z.string().min(1),
