@@ -2,6 +2,7 @@
   <v-layout class="rounded-md border">
     <v-app-bar title="Getman API">
       <template #append>
+        <EnvironmentDialog />
         <v-btn
           size="small"
           variant="tonal"
