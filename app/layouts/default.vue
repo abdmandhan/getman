@@ -11,7 +11,7 @@
         >
           Authorization
         </v-btn>
-        <v-btn @click="theme.toggle()" icon>
+        <v-btn @click="toggleTheme" icon>
           <v-icon>
             {{
               theme.global.name.value === "dark"
@@ -620,4 +620,13 @@ onMounted(() => {
   store.fetchAuthorizations();
   store.fetchEnvironments();
 });
+
+function toggleTheme() {
+  theme.toggle();
+
+  const themeValue = theme.global.name.value;
+
+  // add dark to body class for tailwindcss
+  document.body.classList.toggle("dark", themeValue === "dark");
+}
 </script>
