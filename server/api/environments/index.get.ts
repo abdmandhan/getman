@@ -10,7 +10,11 @@ export default defineEventHandler(async (event) => {
         });
     }
 
-    const environments = await prisma.environment.findMany();
+    const environments = await prisma.environment.findMany({
+        include: {
+            environmentVariables: true,
+        }
+    });
 
     return environments;
 });

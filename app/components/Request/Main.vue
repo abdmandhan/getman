@@ -1,35 +1,32 @@
 <template>
   <v-card v-if="selectedRequest" class="mb-4">
-    <v-card-title class="d-flex align-center justify-space-between">
-      <v-text-field
-        v-model="selectedRequest.url"
-        label="URL"
+    <v-card-title class="d-flex align-center justify-space-between gap-2">
+      <v-select
+        v-model="selectedRequest.method"
+        :items="['GET', 'POST', 'PUT', 'PATCH', 'DELETE']"
+        label="Method"
+        variant="outlined"
         hide-details
-        placeholder="https://api.example.com/path"
         min-width="150"
-      >
-        <template #prepend>
-          <v-select
-            v-model="selectedRequest.method"
-            :items="['GET', 'POST', 'PUT', 'PATCH', 'DELETE']"
-            label="Method"
-            variant="outlined"
-            hide-details
-            min-width="150"
-          />
-        </template>
-        <template #append>
-          <v-btn
-            color="primary"
-            :loading="sendLoading"
-            @click="sendRequest"
-            text="Send"
-          />
-        </template>
-      </v-text-field>
+      />
+
+      <env-input
+        v-if="selectedRequest"
+        v-model="selectedRequest.url"
+        label="Request URL"
+        type="url"
+        placeholder="{{ API_URL }}/api/v1/users"
+      />
+
+      <v-btn
+        color="primary"
+        :loading="sendLoading"
+        @click="sendRequest"
+        text="Send"
+      />
     </v-card-title>
     <v-card-text>
-      <div class="flex">{{ selectedRequest.url }}?{{ urlParams }}</div>
+      <!-- <div class="flex">{{ selectedRequest.url }}?{{ urlParams }}</div> -->
       <v-tabs v-model="tab" color="primary" density="compact">
         <v-tab
           v-for="tab in tabLists"

@@ -2,6 +2,8 @@
 import { defineStore } from 'pinia'
 import type { Authorization, Environment } from '~~/prisma/generated/client'
 
+const SELECTED_ENV_STORAGE_KEY = 'getman-selected-environment-id'
+
 export const useAppStore = defineStore('app', {
   state: () => ({
     //
@@ -11,7 +13,14 @@ export const useAppStore = defineStore('app', {
   }),
   actions: {
     setSelectedEnvironment(env: Environment | null) {
-      this.selectedEnvironment = env;
+      this.selectedEnvironment = env
+      if (import.meta.client) {
+        if (env) {
+          localStorage.setItem(SELECTED_ENV_STORAGE_KEY, env.id)
+        } else {
+          localStorage.removeItem(SELECTED_ENV_STORAGE_KEY)
+        }
+      }
     },
     async fetchAuthorizations() {
       const res = await $fetch<Authorization[]>("/api/authorizations", {});
@@ -20,6 +29,13 @@ export const useAppStore = defineStore('app', {
     async fetchEnvironments() {
       const res = await $fetch<Environment[]>("/api/environments", {});
       this.environments = res ?? [];
+      if (import.meta.client) {
+        const storedId = localStorage.getItem(SELECTED_ENV_STORAGE_KEY)
+        if (storedId) {
+          const env = this.environments.find((e) => e.id === storedId) ?? null
+          this.selectedEnvironment = env
+        }
+      }
     },
   },
 })

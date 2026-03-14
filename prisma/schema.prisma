@@ -56,6 +56,8 @@ model EnvironmentVariable {
   environment   Environment @relation(fields: [environmentId], references: [id])
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+
+  @@index([environmentId, key])
 }
 
 model User {
