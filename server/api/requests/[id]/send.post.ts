@@ -6,8 +6,10 @@ import {
 } from "~~/server/utils/resolve-env";
 
 export default defineEventHandler(async (event) => {
+  const start = Date.now();
+  const requestId = getRouterParam(event, "id");
+
   try {
-    const requestId = getRouterParam(event, "id");
 
     const findRequest = await prisma.request.findUnique({
       where: {
@@ -95,10 +97,18 @@ export default defineEventHandler(async (event) => {
       body,
     };
 
-    console.log("resolved url", url);
-    console.log("request", req);
-
     const response = await $fetch.raw(url, req);
+    const duration = Date.now() - start;
+
+    await prisma.requestLog.create({
+      data: {
+        requestId: findRequest.id,
+        status: String(response.status),
+        response: (response._data as object) ?? null,
+        error: null,
+        duration,
+      },
+    });
 
     return {
       status: response.status,
@@ -107,11 +117,25 @@ export default defineEventHandler(async (event) => {
       data: response._data,
     };
   } catch (error: any) {
-    console.error("Error sending request", error);
+    const duration = Date.now() - start;
+    const statusCode = error?.statusCode ?? 500;
+    const statusMessage =
+      error?.statusMessage ?? error?.message ?? "Failed to send request";
+
+    if (requestId) {
+      await prisma.requestLog.create({
+        data: {
+          requestId,
+          status: String(statusCode),
+          error: statusMessage,
+          duration,
+        },
+      }).catch((logErr) => console.error("Failed to create request log", logErr));
+    }
+
     throw createError({
-      statusCode: error?.statusCode || 500,
-      statusMessage:
-        error?.statusMessage || error?.message || "Failed to send request",
+      statusCode: statusCode as number,
+      statusMessage,
       data: error?.data,
     });
   }
