@@ -1,16 +1,8 @@
 import { z } from "zod";
 import { prisma } from "~~/server/utils/db";
+import { requireCurrentUser } from "~~/server/utils/sidebar";
 
 export default defineEventHandler(async (event) => {
-  const session = await getUserSession(event);
-
-  if (!session?.user?.username) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized",
-    });
-  }
-
   const body = await readBody(event);
 
   const { name, description } = z
@@ -20,21 +12,21 @@ export default defineEventHandler(async (event) => {
     })
     .parse(body);
 
-  const user = await prisma.user.findFirst({
+  const user = await requireCurrentUser(event);
+
+  const collectionCount = await prisma.collection.count({
     where: {
-      email: session.user.username,
+      userCollections: {
+        some: {
+          userId: user.id,
+        },
+      },
     },
   });
 
-  if (!user) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: "User not found",
-    });
-  }
-
   const collection = await prisma.collection.create({
     data: {
+      index: collectionCount,
       name,
       description,
       userCollections: {
@@ -47,4 +39,3 @@ export default defineEventHandler(async (event) => {
 
   return collection;
 });
-

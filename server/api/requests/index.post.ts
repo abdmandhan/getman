@@ -1,77 +1,33 @@
-import { z } from "zod";
-import { BodyType } from "~~/prisma/generated/client";
 import { prisma } from "~~/server/utils/db";
 import { validateRequest } from "~~/shared/types";
+import {
+  ensureCollectionAccess,
+  ensureFolderAccess,
+  getOrderedChildren,
+  requireCurrentUser,
+} from "~~/server/utils/sidebar";
 
 export default defineEventHandler(async (event) => {
-  const session = await getUserSession(event);
-
-  if (!session?.user?.username) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized",
-    });
-  }
-
   const requestBody = await readBody(event);
 
   const { name, url, method, body_type, body, collectionId, folderId, description, authorizationId } = validateRequest(requestBody);
 
-  const user = await prisma.user.findFirst({
-    where: {
-      email: session.user.username,
-    },
-    include: {
-      userCollections: true,
-    },
-  });
-
-  if (!user) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: "User not found",
-    });
-  }
-
-  // verify the collection belongs to this user
-  const collection = await prisma.collection.findFirst({
-    where: {
-      id: collectionId,
-      userCollections: {
-        some: {
-          userId: user.id,
-        },
-      },
-    },
-  });
-
-  if (!collection) {
-    throw createError({
-      statusCode: 404,
-      statusMessage: "Collection not found",
-    });
-  }
+  const user = await requireCurrentUser(event);
+  const collection = await ensureCollectionAccess(prisma, user.id, collectionId);
 
   // if folderId is provided, ensure it belongs to the same user & collection
   if (folderId) {
-    const folder = await prisma.folder.findFirst({
-      where: {
-        id: folderId,
-        userId: user.id,
-        collectionId: collection.id,
-      },
-    });
-
-    if (!folder) {
-      throw createError({
-        statusCode: 404,
-        statusMessage: "Folder not found",
-      });
-    }
+    await ensureFolderAccess(prisma, user.id, folderId, collection.id);
   }
+
+  const siblings = await getOrderedChildren(prisma, {
+    collectionId: collection.id,
+    parentFolderId: folderId ?? null,
+  });
 
   const request = await prisma.request.create({
     data: {
+      index: siblings.length,
       name,
       url,
       method,
@@ -86,4 +42,3 @@ export default defineEventHandler(async (event) => {
 
   return request;
 });
-

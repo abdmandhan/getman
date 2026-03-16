@@ -85,11 +85,11 @@ function headersToJson(
 async function processChildren(
   children: InsomniaChild[] | undefined,
   collectionId: string,
-  folderId: string | null,
+  parentFolderId: string | null,
   userId: string
 ) {
   if (!children?.length) return;
-  for (const child of children) {
+  for (const [index, child] of children.entries()) {
     if (isRequest(child)) {
       const method = child.method?.toUpperCase() || "GET";
       const bodyType = toBodyType(child.body?.mimeType);
@@ -104,16 +104,19 @@ async function processChildren(
           headers: headersJson,
           body_type: bodyType,
           body: bodyJson,
-          folderId,
+          folderId: parentFolderId,
           collectionId,
+          index,
         },
       });
     } else {
       const folder = await prisma.folder.create({
         data: {
+          index,
           name: child.name,
           userId,
           collectionId,
+          parentFolderId,
         },
       });
       await processChildren(child.children, collectionId, folder.id, userId);
@@ -158,7 +161,7 @@ export default async function seed() {
     return;
   }
 
-  for (const col of collections) {
+  for (const [index, col] of collections.entries()) {
     const name = col.name || "Imported Collection";
     const existing = await prisma.collection.findFirst({
       where: { name },
@@ -169,7 +172,11 @@ export default async function seed() {
       console.log("Using existing collection:", name);
     } else {
       collection = await prisma.collection.create({
-        data: { name, description: `Imported from ${spec.name ?? "Insomnia"}` },
+        data: {
+          index,
+          name,
+          description: `Imported from ${spec.name ?? "Insomnia"}`,
+        },
       });
       console.log("Created collection:", name);
     }

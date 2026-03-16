@@ -1,5 +1,6 @@
 <template>
   <v-layout class="rounded-md border">
+    <Toast />
     <v-app-bar title="Getman API">
       <template #append>
         <EnvironmentDialog />
@@ -28,7 +29,8 @@
         <v-icon>mdi-plus</v-icon>
         Add Collection
       </v-btn>
-      <v-treeview
+      <SidebarMenu />
+      <!-- <v-treeview
         fluid
         v-model:opened="open"
         v-model:activated="activated"
@@ -68,7 +70,7 @@
             <v-icon size="small">mdi-plus</v-icon>
           </v-btn>
         </template>
-      </v-treeview>
+      </v-treeview> -->
       <template #append>
         <v-list-item @click="logout">
           <template #prepend>
@@ -96,17 +98,9 @@
           :request="selectedRequest"
           @remove-request="removeRequest"
         />
-
-        <!-- {{ items }} -->
-        <!-- {{ store.authorizations }} -->
-        <!-- {{ selectedRequest }} -->
-        <!-- {{ activated }} -->
-        <!-- {{ open }} -->
-
         <slot />
       </v-container>
 
-      <!-- Add Collection dialog -->
       <v-dialog v-model="showAddCollectionDialog" max-width="480">
         <v-card title="Add Collection">
           <v-card-text>
@@ -142,7 +136,6 @@
         </v-card>
       </v-dialog>
 
-      <!-- Per-collection: add folder or request -->
       <v-dialog v-model="showCollectionItemDialog" max-width="420">
         <v-card
           :title="`Add to ${activeCollectionForDialog?.title ?? 'Collection'}`"
@@ -180,7 +173,6 @@
         </v-card>
       </v-dialog>
 
-      <!-- Add Folder dialog -->
       <v-dialog v-model="showAddFolderDialog" max-width="480">
         <v-card
           :title="`Add Folder to ${activeCollectionForDialog?.title ?? ''}`"
@@ -212,7 +204,6 @@
         </v-card>
       </v-dialog>
 
-      <!-- Add Request dialog -->
       <v-dialog v-model="showAddRequestDialog" max-width="600" persistent>
         <v-card
           :title="`Add Request to ${activeCollectionForDialog?.title ?? ''}`"
@@ -327,6 +318,7 @@ const items = ref<TreeItem[]>([]);
 const loadingTree = ref(false);
 const treeError = ref<string | null>(null);
 const selectedRequest = ref<Request | null>(null);
+const color = ref("#42a5f5");
 
 const showAddCollectionDialog = ref(false);
 const addCollectionForm = ref({
@@ -357,14 +349,6 @@ const addRequestForm = ref({
 const addRequestLoading = ref(false);
 const activeRequestCollectionId = ref<string | null>(null);
 const activeRequestFolderId = ref<string | null>(null);
-
-const methodIcons: Record<string, string> = {
-  GET: "mdi-arrow-right",
-  POST: "mdi-arrow-down",
-  PUT: "mdi-arrow-up",
-  PATCH: "mdi-arrow-top-right",
-  DELETE: "mdi-trash-can",
-};
 
 async function fetchCollectionsTree() {
   loadingTree.value = true;
@@ -613,6 +597,6 @@ function toggleTheme() {
   const themeValue = theme.global.name.value;
 
   // add dark to body class for tailwindcss
-  document.body.classList.toggle("dark", themeValue === "dark");
+  document.documentElement.classList.toggle("dark", themeValue === "dark");
 }
 </script>

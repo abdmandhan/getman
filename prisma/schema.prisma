@@ -73,6 +73,7 @@ model User {
 
 model Collection {
   id              String           @id @default(uuid())
+  index           Int              @default(0)
   name            String
   description     String?
   requests        Request[]
@@ -115,6 +116,7 @@ model Request {
   js_scripts      String? // used for storing javascript scripts for the request
   run_script      RunScript     @default(NONE)
   authorizationId String?
+  index           Int           @default(0)
 
   folderId       String?
   folder         Folder?         @relation(fields: [folderId], references: [id])
@@ -153,14 +155,18 @@ model RequestLog {
 }
 
 model Folder {
-  id           String   @id @default(uuid())
-  name         String
-  userId       String
-  collectionId String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id             String   @id @default(uuid())
+  index          Int      @default(0)
+  name           String
+  userId         String
+  collectionId   String
+  parentFolderId String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  collection Collection @relation(fields: [collectionId], references: [id])
-  user       User       @relation(fields: [userId], references: [id])
-  requests   Request[]
+  collection   Collection @relation(fields: [collectionId], references: [id])
+  user         User       @relation(fields: [userId], references: [id])
+  parentFolder Folder?    @relation("FolderChildren", fields: [parentFolderId], references: [id])
+  children     Folder[]   @relation("FolderChildren")
+  requests     Request[]
 }

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { AuthType, BodyType } from "~~/prisma/generated/client";
+import { AuthType, BodyType, RequestMethod } from "~~/prisma/generated/client";
 
 
 
@@ -19,7 +19,7 @@ export const validateAuthorization = (data: unknown): z.infer<typeof Authorizati
 export const RequestSchema = z.object({
     name: z.string().min(1),
     url: z.string().min(1),
-    method: z.string().min(1),
+    method: z.enum(Object.values(RequestMethod)),
     body_type: z.enum(Object.values(BodyType)),
     body: z.any().nullable(),
     collectionId: z.string().min(1),
@@ -35,16 +35,37 @@ export const validateRequest = (data: unknown): z.infer<typeof RequestSchema> =>
 export const RequestUpdateSchema = z.object({
     name: z.string().min(1).optional(),
     url: z.string().min(1).optional(),
-    method: z.string().min(1).optional(),
+    method: z.enum(Object.values(RequestMethod)).optional(),
     body_type: z.enum(Object.values(BodyType)).optional(),
     body: z.any().nullable().optional(),
     description: z.string().optional().nullable(),
     authorizationId: z.string().optional().nullable(),
     headers: z.record(z.string(), z.string()).optional().nullable(),
+    collectionId: z.string().min(1).optional(),
+    folderId: z.string().optional().nullable(),
+    index: z.number().int().nonnegative().optional(),
 });
 
 export const validateRequestUpdate = (data: unknown): z.infer<typeof RequestUpdateSchema> => {
     return RequestUpdateSchema.parse(data);
+};
+
+export const CollectionUpdateSchema = z.object({
+    index: z.number().int().nonnegative().optional(),
+});
+
+export const validateCollectionUpdate = (data: unknown): z.infer<typeof CollectionUpdateSchema> => {
+    return CollectionUpdateSchema.parse(data);
+};
+
+export const FolderUpdateSchema = z.object({
+    collectionId: z.string().min(1).optional(),
+    parentFolderId: z.string().optional().nullable(),
+    index: z.number().int().nonnegative().optional(),
+});
+
+export const validateFolderUpdate = (data: unknown): z.infer<typeof FolderUpdateSchema> => {
+    return FolderUpdateSchema.parse(data);
 };
 
 export const EnvironmentSchema = z.object({

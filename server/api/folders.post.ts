@@ -1,16 +1,12 @@
 import { z } from "zod";
 import { prisma } from "~~/server/utils/db";
+import {
+  ensureCollectionAccess,
+  getOrderedChildren,
+  requireCurrentUser,
+} from "~~/server/utils/sidebar";
 
 export default defineEventHandler(async (event) => {
-  const session = await getUserSession(event);
-
-  if (!session?.user?.username) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized",
-    });
-  }
-
   const body = await readBody(event);
 
   const { name, collectionId } = z
@@ -20,46 +16,22 @@ export default defineEventHandler(async (event) => {
     })
     .parse(body);
 
-  const user = await prisma.user.findFirst({
-    where: {
-      email: session.user.username,
-    },
+  const user = await requireCurrentUser(event);
+  const collection = await ensureCollectionAccess(prisma, user.id, collectionId);
+  const siblings = await getOrderedChildren(prisma, {
+    collectionId: collection.id,
+    parentFolderId: null,
   });
-
-  if (!user) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: "User not found",
-    });
-  }
-
-  // Ensure the collection belongs to this user
-  const collection = await prisma.collection.findFirst({
-    where: {
-      id: collectionId,
-      userCollections: {
-        some: {
-          userId: user.id,
-        },
-      },
-    },
-  });
-
-  if (!collection) {
-    throw createError({
-      statusCode: 404,
-      statusMessage: "Collection not found",
-    });
-  }
 
   const folder = await prisma.folder.create({
     data: {
+      index: siblings.length,
       name,
       userId: user.id,
       collectionId: collection.id,
+      parentFolderId: null,
     },
   });
 
   return folder;
 });
-
