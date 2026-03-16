@@ -29,6 +29,7 @@
         Add Collection
       </v-btn>
       <v-treeview
+        fluid
         v-model:opened="open"
         v-model:activated="activated"
         :items="items"
@@ -98,6 +99,9 @@
 
         <!-- {{ items }} -->
         <!-- {{ store.authorizations }} -->
+        <!-- {{ selectedRequest }} -->
+        <!-- {{ activated }} -->
+        <!-- {{ open }} -->
 
         <slot />
       </v-container>
@@ -232,12 +236,6 @@
                 />
               </v-col>
               <v-col cols="12" sm="8">
-                <!-- <v-text-field
-                  v-model="addRequestForm.url"
-                  label="URL"
-                  placeholder="https://api.example.com/path"
-                  required
-                /> -->
                 <env-input
                   v-model="addRequestForm.url"
                   label="URL"
@@ -263,18 +261,6 @@
                 />
               </v-col>
               <v-col>
-                <!-- <v-select
-                  v-model="addRequestForm.body_type"
-                  :items="[
-                    'NONE',
-                    'JSON',
-                    'FORM_DATA',
-                    'URL_ENCODED',
-                    'RAW',
-                    'BINARY',
-                  ]"
-                  label="Body Type"
-                /> -->
                 <v-radio-group v-model="addRequestForm.body_type" inline>
                   <v-radio label="none" value="NONE"></v-radio>
                   <v-radio label="json" value="JSON"></v-radio>
