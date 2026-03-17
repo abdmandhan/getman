@@ -81,7 +81,8 @@
       </template>
     </v-navigation-drawer>
 
-    <v-main class="d-flex justify-center">
+    <v-main class="d-flex flex-col">
+      <TabRouter />
       <v-container class="py-4" style="max-width: 960px; width: 100%">
         <v-alert v-if="treeError" type="error" density="compact" class="mb-4">
           {{ treeError }}
@@ -598,5 +599,6 @@ function toggleTheme() {
 
   // add dark to body class for tailwindcss
   document.documentElement.classList.toggle("dark", themeValue === "dark");
+  document.body.classList.toggle("dark", themeValue === "dark");
 }
 </script>

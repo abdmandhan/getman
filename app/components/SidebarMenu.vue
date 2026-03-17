@@ -21,7 +21,7 @@ const toast = useToast();
 
 const onNodeSelect = (node: any) => {
   console.log(node);
-  navigateTo(`/d/${node.key}`);
+  navigateTo(`/requests/${node.key}`);
   toast.add({
     severity: "success",
     summary: "Node Selected",
@@ -94,7 +94,8 @@ const saving = ref(false);
 
 const onNodeDrop = async (event: TreeNodeDropEvent) => {
   const drag = event?.dragNode as SidebarTreeNode | undefined;
-  const nextNodes = (event?.value as SidebarTreeNode[] | undefined) ?? nodes.value;
+  const nextNodes =
+    (event?.value as SidebarTreeNode[] | undefined) ?? nodes.value;
 
   if (!drag?.data) return;
 
