@@ -8,7 +8,7 @@
     :metaKeySelection="false"
     @nodeSelect="onNodeSelect"
     @nodeDrop="onNodeDrop"
-    class="w-full p-0!"
+    class="w-full p-0! bg-transparent!"
   ></Tree>
 </template>
 
